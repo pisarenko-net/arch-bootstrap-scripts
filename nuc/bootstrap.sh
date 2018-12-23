@@ -47,8 +47,8 @@ echo '==> Creating /boot filesystem (ext2)'
 /usr/bin/mkfs.ext2 -F ${BOOT_PARTITION}
 
 echo '==> Creating encrypted /root filesystem (btrfs)'
-echo $ROOT_PASSHPRASE | /usr/bin/cryptsetup luksFormat $ROOT_PARTITION -d -
-echo $ROOT_PASSHPRASE | /usr/bin/cryptsetup open $ROOT_PARTITION cryptlvm -d -
+echo "$ROOT_PASSHPRASE" | /usr/bin/cryptsetup luksFormat $ROOT_PARTITION -d -
+echo "$ROOT_PASSHPRASE" | /usr/bin/cryptsetup open $ROOT_PARTITION cryptlvm -d -
 /usr/bin/pvcreate /dev/mapper/cryptlvm
 /usr/bin/vgcreate vg0 /dev/mapper/cryptlvm
 /usr/bin/lvcreate -l 100%FREE vg0 -n root
