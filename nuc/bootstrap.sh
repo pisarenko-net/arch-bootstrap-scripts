@@ -109,8 +109,6 @@ echo $ROOT_PASSPHRASE | /usr/bin/cryptsetup luksAddKey ${ROOT_PARTITION} /crypto
 /usr/bin/chmod 600 /boot/initramfs-linux*
 #
 /usr/bin/grub-mkconfig -o /boot/grub/grub.cfg
-#/usr/bin/mkdir /boot/efi/EFI/BOOT
-#/usr/bin/cp /boot/efi/EFI/ArchLinux/grubx64.efi /boot/efi/EFI/BOOT/bootx64.efi
 #
 echo '${FQDN}' > /etc/hostname
 /usr/bin/ln -sf /usr/share/zoneinfo/${TIMEZONE} /etc/localtime
@@ -120,7 +118,7 @@ echo 'LANG=en_US.UTF-8' > /etc/locale.conf
 /usr/bin/locale-gen
 /usr/bin/usermod --password ${PASSWORD} root
 # https://wiki.archlinux.org/index.php/Network_Configuration#Device_names
-/usr/bin/netctl enable static_configuration
+/usr/bin/netctl enable static_config
 /usr/bin/systemctl enable sshd.service
 /usr/bin/useradd --password ${PASSWORD} --create-home --user-group sergey
 echo 'sergey ALL=(ALL) NOPASSWD: ALL' >> /etc/sudoers.d/10_sergey
