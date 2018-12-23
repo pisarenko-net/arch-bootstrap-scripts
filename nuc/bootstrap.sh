@@ -3,7 +3,8 @@ DISK='/dev/nvme0n1'
 
 FQDN='arch.bethania'
 IPADDR='192.168.69.20'
-IFACE="eno1"
+GW='192.168.69.1'
+IFACE="eth0"
 USER='sergey'
 PASSWORD=$(/usr/bin/openssl passwd -crypt 'test')
 KEYMAP='us'
@@ -78,45 +79,54 @@ echo '==> LVM work-around'
 /usr/bin/mkdir /mnt/hostlvm
 /usr/bin/mount --bind /run/lvm /mnt/hostlvm
 
+echo '==> Generating network configuration'
+cat <<-EOF > "${TARGET_DIR}/etc/netctl/static_config"
+Interface=${IFACE}
+Connection=ethernet
+IP=static
+Address='${IP_ADDRESS}'
+Gateway='${GW}'
+DNS='${GW}'
+EOF
+
 echo '==> Generating system configuration script'
 cat <<-EOF > "${TARGET_DIR}${CONFIG_SCRIPT}"
-    /usr/bin/ln -s /hostlvm /run/lvm
-    /usr/bin/sed -i 's/HOOKS=.*/HOOKS=(base udev autodetect modconf block keymap encrypt lvm2 filesystems keyboard fsck)/' /etc/mkinitcpio.conf
-    # GRUB bootloader installation
-    /usr/bin/grub-install --target=x86_64-efi --efi-directory=/boot/efi --bootloader-id=ArchLinux
-    # keyless boot
-    /usr/bin/dd bs=512 count=8 if=/dev/urandom of=/crypto_keyfile.bin
-    /usr/bin/chmod 000 /crypto_keyfile.bin
-    echo $ROOT_PASSPHRASE | /usr/bin/cryptsetup luksAddKey ${ROOT_PARTITION} /crypto_keyfile.bin -d -
-    /usr/bin/sed -i 's\^FILES=.*\FILES="/crypto_keyfile.bin"\g' /etc/mkinitcpio.conf
-    #
-    /usr/bin/mkinitcpio -p linux
-    /usr/bin/chmod 600 /boot/initramfs-linux*
-    #
-    /usr/bin/grub-mkconfig -o /boot/grub/grub.cfg
-    #/usr/bin/mkdir /boot/efi/EFI/BOOT
-    #/usr/bin/cp /boot/efi/EFI/ArchLinux/grubx64.efi /boot/efi/EFI/BOOT/bootx64.efi
-    #
-    echo '${FQDN}' > /etc/hostname
-    /usr/bin/ln -sf /usr/share/zoneinfo/${TIMEZONE} /etc/localtime
-    echo 'KEYMAP=${KEYMAP}' > /etc/vconsole.conf
-    echo 'LANG=en_US.UTF-8' > /etc/locale.conf
-    /usr/bin/sed -i 's/#${LANGUAGE}/${LANGUAGE}/' /etc/locale.gen
-    /usr/bin/locale-gen
-    /usr/bin/usermod --password ${PASSWORD} root
-    # https://wiki.archlinux.org/index.php/Network_Configuration#Device_names
-    /usr/bin/ln -s /dev/null /etc/udev/rules.d/80-net-setup-link.rules
-    /usr/bin/ln -s '/usr/lib/systemd/system/dhcpcd@.service' '/etc/systemd/system/multi-user.target.wants/dhcpcd@${IFACE}.service'
-    /usr/bin/systemctl enable sshd.service
-    /usr/bin/useradd --password ${PASSWORD} --create-home --user-group sergey
-    echo 'sergey ALL=(ALL) NOPASSWD: ALL' >> /etc/sudoers.d/10_sergey
-    /usr/bin/chmod 0440 /etc/sudoers.d/10_sergey
-    /usr/bin/install --directory --owner=sergey --group=sergey --mode=0700 /home/sergey/.ssh
-    #/usr/bin/curl --output /home/sergey/.ssh/authorized_keys --location https://raw.github.com/mitchellh/vagrant/master/keys/vagrant.pub
-    /usr/bin/chown sergey:sergey /home/sergey/.ssh/authorized_keys
-    /usr/bin/chmod 0600 /home/sergey/.ssh/authorized_keys
-    # Clean the pacman cache.
-    /usr/bin/yes | /usr/bin/pacman -Scc
+/usr/bin/ln -s /hostlvm /run/lvm
+/usr/bin/sed -i 's/HOOKS=.*/HOOKS=(base udev autodetect modconf block keymap encrypt lvm2 filesystems keyboard fsck)/' /etc/mkinitcpio.conf
+# GRUB bootloader installation
+/usr/bin/grub-install --target=x86_64-efi --efi-directory=/boot/efi --bootloader-id=ArchLinux
+# keyless boot
+/usr/bin/dd bs=512 count=8 if=/dev/urandom of=/crypto_keyfile.bin
+/usr/bin/chmod 000 /crypto_keyfile.bin
+echo $ROOT_PASSPHRASE | /usr/bin/cryptsetup luksAddKey ${ROOT_PARTITION} /crypto_keyfile.bin -d -
+/usr/bin/sed -i 's\^FILES=.*\FILES="/crypto_keyfile.bin"\g' /etc/mkinitcpio.conf
+#
+/usr/bin/mkinitcpio -p linux
+/usr/bin/chmod 600 /boot/initramfs-linux*
+#
+/usr/bin/grub-mkconfig -o /boot/grub/grub.cfg
+#/usr/bin/mkdir /boot/efi/EFI/BOOT
+#/usr/bin/cp /boot/efi/EFI/ArchLinux/grubx64.efi /boot/efi/EFI/BOOT/bootx64.efi
+#
+echo '${FQDN}' > /etc/hostname
+/usr/bin/ln -sf /usr/share/zoneinfo/${TIMEZONE} /etc/localtime
+echo 'KEYMAP=${KEYMAP}' > /etc/vconsole.conf
+echo 'LANG=en_US.UTF-8' > /etc/locale.conf
+/usr/bin/sed -i 's/#${LANGUAGE}/${LANGUAGE}/' /etc/locale.gen
+/usr/bin/locale-gen
+/usr/bin/usermod --password ${PASSWORD} root
+# https://wiki.archlinux.org/index.php/Network_Configuration#Device_names
+/usr/bin/netctl enable static_configuration
+/usr/bin/systemctl enable sshd.service
+/usr/bin/useradd --password ${PASSWORD} --create-home --user-group sergey
+echo 'sergey ALL=(ALL) NOPASSWD: ALL' >> /etc/sudoers.d/10_sergey
+/usr/bin/chmod 0440 /etc/sudoers.d/10_sergey
+/usr/bin/install --directory --owner=sergey --group=sergey --mode=0700 /home/sergey/.ssh
+/usr/bin/curl --output /home/sergey/.ssh/authorized_keys --location https://raw.githubusercontent.com/pisarenko-net/arch-bootstrap-scripts/master/master-key.pub
+/usr/bin/chown sergey:sergey /home/sergey/.ssh/authorized_keys
+/usr/bin/chmod 0600 /home/sergey/.ssh/authorized_keys
+# Clean the pacman cache.
+/usr/bin/yes | /usr/bin/pacman -Scc
 EOF
 
 /usr/bin/umount /mnt/hostlvm
