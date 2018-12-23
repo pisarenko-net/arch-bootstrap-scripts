@@ -19,6 +19,7 @@ EFI_PARTITION="${DISK}p1"
 BOOT_PARTITION="${DISK}p2"
 ROOT_PARTITION="${DISK}p3"
 ROOT_PASSPHRASE=`/usr/bin/openssl rand -base64 32`
+ENC_KEY_PATH="${TARGET_DIR}/enc.key"
 TARGET_DIR='/mnt'
 COUNTRY='CH'
 MIRRORLIST="https://www.archlinux.org/mirrorlist/?country=${COUNTRY}&protocol=http&protocol=https&ip_version=4&use_mirror_status=on"
@@ -47,8 +48,9 @@ echo '==> Creating /boot filesystem (ext2)'
 /usr/bin/mkfs.ext2 -F ${BOOT_PARTITION}
 
 echo '==> Creating encrypted /root filesystem (btrfs)'
-echo "$ROOT_PASSHPRASE" | /usr/bin/cryptsetup -q luksFormat $ROOT_PARTITION -d -
-echo "$ROOT_PASSHPRASE" | /usr/bin/cryptsetup open $ROOT_PARTITION cryptlvm -d -
+echo ${ROOT_PASSPHRASE} > enc.key
+/usr/bin/cryptsetup -q luksFormat $ROOT_PARTITION --key-file=enc.key
+/usr/bin/cryptsetup open $ROOT_PARTITION cryptlvm --key-file=enc.key
 /usr/bin/pvcreate /dev/mapper/cryptlvm
 /usr/bin/vgcreate vg0 /dev/mapper/cryptlvm
 /usr/bin/lvcreate -l 100%FREE vg0 -n root
@@ -84,7 +86,7 @@ echo '==> LVM work-around'
 /usr/bin/mount --bind /run/lvm ${TARGET_DIR}/hostlvm
 
 echo '==> Generating network configuration'
-cat <<-EOF > "${TARGET_DIR}/etc/netctl/static_config"
+/usr/bin/cat <<-EOF > "${TARGET_DIR}/etc/netctl/static_config"
 Interface=${IFACE}
 Connection=ethernet
 IP=static
@@ -94,7 +96,8 @@ DNS='${GW}'
 EOF
 
 echo '==> Generating system configuration script'
-cat <<-EOF > "${TARGET_DIR}${CONFIG_SCRIPT}"
+echo ${ROOT_PASSPHRASE} > ${ENC_KEY_PATH}
+/usr/bin/cat <<-EOF > "${TARGET_DIR}${CONFIG_SCRIPT}"
 /usr/bin/ln -s /hostlvm /run/lvm
 /usr/bin/sed -i 's/HOOKS=.*/HOOKS=(base udev autodetect modconf block keymap encrypt lvm2 filesystems keyboard fsck)/' /etc/mkinitcpio.conf
 # GRUB bootloader installation
@@ -102,7 +105,7 @@ cat <<-EOF > "${TARGET_DIR}${CONFIG_SCRIPT}"
 # keyless boot
 /usr/bin/dd bs=512 count=8 if=/dev/urandom of=/crypto_keyfile.bin
 /usr/bin/chmod 000 /crypto_keyfile.bin
-echo "$ROOT_PASSPHRASE" | /usr/bin/cryptsetup luksAddKey ${ROOT_PARTITION} /crypto_keyfile.bin -d -
+/usr/bin/cryptsetup luksAddKey ${ROOT_PARTITION} /crypto_keyfile.bin --key-file=${ENC_KEY_PATH}
 /usr/bin/sed -i 's\^FILES=.*\FILES="/crypto_keyfile.bin"\g' /etc/mkinitcpio.conf
 #
 /usr/bin/mkinitcpio -p linux
@@ -133,7 +136,8 @@ EOF
 
 echo '==> Entering chroot and configuring system'
 /usr/bin/arch-chroot ${TARGET_DIR} ${CONFIG_SCRIPT}
-rm "${TARGET_DIR}${CONFIG_SCRIPT}"
+/usr/bin/rm "${TARGET_DIR}${CONFIG_SCRIPT}"
+/usr/bin/rm "${ENC_KEY_PATH}"
 
 /usr/bin/umount ${TARGET_DIR}/hostlvm
 /usr/bin/rm -rf ${TARGET_DIR}/hostlvm
