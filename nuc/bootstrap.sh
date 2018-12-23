@@ -1,4 +1,9 @@
 #!/bin/bash
+
+# run and execute after dropping into arch installer: $ curl -L https://git.io/apfel_nuc|chmod +x install|./install
+
+# short url: https://git.io/apfel_nuc
+# (created with: $ curl -i https://git.io -F "url=https://raw.githubusercontent.com/pisarenko-net/arch-bootstrap-scripts/master/nuc/bootstrap.sh" -F "code=apfel_nuc")
 DISK='/dev/nvme0n1'
 
 FQDN='arch.bethania'
