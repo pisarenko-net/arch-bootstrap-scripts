@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# run and execute after dropping into arch installer: $ curl -L https://git.io/apfel_nuc|chmod +x install|./install
+# run and execute after dropping into arch installer: $ wget git.io/apfel_nuc -O - | sh
 
 # short url: https://git.io/apfel_nuc
 # (created with: $ curl -i https://git.io -F "url=https://raw.githubusercontent.com/pisarenko-net/arch-bootstrap-scripts/master/nuc/bootstrap.sh" -F "code=apfel_nuc")
