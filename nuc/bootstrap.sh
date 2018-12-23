@@ -5,7 +5,7 @@
 DISK='/dev/nvme0n1'
 
 FQDN='arch.bethania'
-IP='192.168.69.20'
+IP='192.168.69.20/24'
 GW='192.168.69.1'
 IFACE="eth0"
 USER='sergey'
