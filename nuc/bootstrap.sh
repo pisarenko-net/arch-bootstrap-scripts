@@ -18,7 +18,7 @@ CONFIG_SCRIPT='/usr/local/bin/arch-config.sh'
 EFI_PARTITION="${DISK}p1"
 BOOT_PARTITION="${DISK}p2"
 ROOT_PARTITION="${DISK}p3"
-ROOT_PASSPHRASE=`/usr/bin/openssl rand -base64 128`
+ROOT_PASSPHRASE=`/usr/bin/openssl rand -base64 32`
 TARGET_DIR='/mnt'
 COUNTRY='CH'
 MIRRORLIST="https://www.archlinux.org/mirrorlist/?country=${COUNTRY}&protocol=http&protocol=https&ip_version=4&use_mirror_status=on"
@@ -47,7 +47,7 @@ echo '==> Creating /boot filesystem (ext2)'
 /usr/bin/mkfs.ext2 -F ${BOOT_PARTITION}
 
 echo '==> Creating encrypted /root filesystem (btrfs)'
-echo "$ROOT_PASSHPRASE" | /usr/bin/cryptsetup luksFormat $ROOT_PARTITION -d -
+echo "$ROOT_PASSHPRASE" | /usr/bin/cryptsetup -q luksFormat $ROOT_PARTITION -d -
 echo "$ROOT_PASSHPRASE" | /usr/bin/cryptsetup open $ROOT_PARTITION cryptlvm -d -
 /usr/bin/pvcreate /dev/mapper/cryptlvm
 /usr/bin/vgcreate vg0 /dev/mapper/cryptlvm
