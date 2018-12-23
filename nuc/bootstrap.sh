@@ -22,6 +22,7 @@ BOOT_PARTITION="${DISK}p2"
 ROOT_PARTITION="${DISK}p3"
 ROOT_PASSPHRASE=`/usr/bin/openssl rand -base64 128`
 TARGET_DIR='/mnt'
+COUNTRY='CH'
 MIRRORLIST="https://www.archlinux.org/mirrorlist/?country=${COUNTRY}&protocol=http&protocol=https&ip_version=4&use_mirror_status=on"
 
 echo "==> Create GPT partition table on ${DISK}"
@@ -45,7 +46,7 @@ echo '==> Creating EFI filesystem (FAT32)'
 /usr/bin/mkfs.fat -F32 $EFI_PARTITION
 
 echo '==> Creating /boot filesystem (ext2)'
-/usr/bin/mkfs.ext2 ${BOOT_PARTITION}
+/usr/bin/mkfs.ext2 -F ${BOOT_PARTITION}
 
 echo '==> Creating encrypted /root filesystem (btrfs)'
 echo $ROOT_PASSHPRASE | /usr/bin/cryptsetup luksFormat $ROOT_PARTITION -d -
