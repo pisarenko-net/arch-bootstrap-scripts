@@ -5,7 +5,7 @@
 DISK='/dev/nvme0n1'
 
 FQDN='arch.bethania'
-IPADDR='192.168.69.20'
+IP='192.168.69.20'
 GW='192.168.69.1'
 IFACE="eth0"
 USER='sergey'
@@ -90,7 +90,7 @@ echo '==> Generating network configuration'
 Interface=${IFACE}
 Connection=ethernet
 IP=static
-Address='${IP_ADDRESS}'
+Address='${IP}'
 Gateway='${GW}'
 DNS='${GW}'
 EOF
