@@ -102,7 +102,7 @@ cat <<-EOF > "${TARGET_DIR}${CONFIG_SCRIPT}"
 # keyless boot
 /usr/bin/dd bs=512 count=8 if=/dev/urandom of=/crypto_keyfile.bin
 /usr/bin/chmod 000 /crypto_keyfile.bin
-echo $ROOT_PASSPHRASE | /usr/bin/cryptsetup luksAddKey ${ROOT_PARTITION} /crypto_keyfile.bin -d -
+echo "$ROOT_PASSPHRASE" | /usr/bin/cryptsetup luksAddKey ${ROOT_PARTITION} /crypto_keyfile.bin -d -
 /usr/bin/sed -i 's\^FILES=.*\FILES="/crypto_keyfile.bin"\g' /etc/mkinitcpio.conf
 #
 /usr/bin/mkinitcpio -p linux
