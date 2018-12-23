@@ -1,8 +1,6 @@
 #!/bin/bash
 
 # run and execute after dropping into arch installer: $ wget git.io/apfel_nuc -O - | sh
-
-# short url: https://git.io/apfel_nuc
 # (created with: $ curl -i https://git.io -F "url=https://raw.githubusercontent.com/pisarenko-net/arch-bootstrap-scripts/master/nuc/bootstrap.sh" -F "code=apfel_nuc")
 DISK='/dev/nvme0n1'
 
@@ -82,8 +80,8 @@ echo '==> Generating the system configuration script'
 /usr/bin/install --mode=0755 /dev/null "${TARGET_DIR}${CONFIG_SCRIPT}"
 
 echo '==> LVM work-around'
-/usr/bin/mkdir /mnt/hostlvm
-/usr/bin/mount --bind /run/lvm /mnt/hostlvm
+/usr/bin/mkdir ${TARGET_DIR}/hostlvm
+/usr/bin/mount --bind /run/lvm ${TARGET_DIR}/hostlvm
 
 echo '==> Generating network configuration'
 cat <<-EOF > "${TARGET_DIR}/etc/netctl/static_config"
@@ -135,8 +133,16 @@ echo 'sergey ALL=(ALL) NOPASSWD: ALL' >> /etc/sudoers.d/10_sergey
 /usr/bin/yes | /usr/bin/pacman -Scc
 EOF
 
-/usr/bin/umount /mnt/hostlvm
-/usr/bin/rm -rf /mnt/hostlvm
+echo '==> Entering chroot and configuring system'
+/usr/bin/arch-chroot ${TARGET_DIR} ${CONFIG_SCRIPT}
+rm "${TARGET_DIR}${CONFIG_SCRIPT}"
 
-/usr/bin/umount -R /mnt
+/usr/bin/umount ${TARGET_DIR}/hostlvm
+/usr/bin/rm -rf ${TARGET_DIR}/hostlvm
+
+echo '==> Install complete!'
+/usr/bin/sleep 5
+/usr/bin/umount ${TARGET_DIR}/boot/efi
+/usr/bin/umount ${TARGET_DIR}/boot
+/usr/bin/umount ${TARGET_DIR}
 /usr/bin/reboot
