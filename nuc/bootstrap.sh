@@ -19,8 +19,8 @@ EFI_PARTITION="${DISK}p1"
 BOOT_PARTITION="${DISK}p2"
 ROOT_PARTITION="${DISK}p3"
 ROOT_PASSPHRASE=`/usr/bin/openssl rand -base64 32`
-ENC_KEY_PATH="${TARGET_DIR}/enc.key"
 TARGET_DIR='/mnt'
+ENC_KEY_PATH="${TARGET_DIR}/enc.key"
 COUNTRY='CH'
 MIRRORLIST="https://www.archlinux.org/mirrorlist/?country=${COUNTRY}&protocol=http&protocol=https&ip_version=4&use_mirror_status=on"
 
@@ -105,7 +105,7 @@ echo ${ROOT_PASSPHRASE} > ${ENC_KEY_PATH}
 # keyless boot
 /usr/bin/dd bs=512 count=8 if=/dev/urandom of=/crypto_keyfile.bin
 /usr/bin/chmod 000 /crypto_keyfile.bin
-/usr/bin/cryptsetup luksAddKey ${ROOT_PARTITION} /crypto_keyfile.bin --key-file=${ENC_KEY_PATH}
+/usr/bin/cryptsetup luksAddKey ${ROOT_PARTITION} /crypto_keyfile.bin --key-file=/enc.key
 /usr/bin/sed -i 's\^FILES=.*\FILES="/crypto_keyfile.bin"\g' /etc/mkinitcpio.conf
 #
 /usr/bin/mkinitcpio -p linux
@@ -121,6 +121,7 @@ echo 'LANG=en_US.UTF-8' > /etc/locale.conf
 /usr/bin/locale-gen
 /usr/bin/usermod --password ${PASSWORD} root
 # https://wiki.archlinux.org/index.php/Network_Configuration#Device_names
+/usr/bin/ln -s /dev/null /etc/udev/rules.d/80-net-setup-link.rules
 /usr/bin/netctl enable static_config
 /usr/bin/systemctl enable sshd.service
 /usr/bin/useradd --password ${PASSWORD} --create-home --user-group sergey
