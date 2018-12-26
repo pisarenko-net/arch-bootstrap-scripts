@@ -1,7 +1,9 @@
 #!/bin/bash
 
+# Install a base bootable Arch system accessible over SSH.
+
 # run and execute from specific configuration scripts: $ wget git.io/apfel_bootstrap -O - | sh
-# (created with: $ curl -i https://git.io -F "url=" -F "code=apfel_bootstrap")
+# (created with: $ curl -i https://git.io -F "url=https://raw.githubusercontent.com/pisarenko-net/arch-bootstrap-scripts/master/common/bootstrap.sh" -F "code=apfel_bootstrap")
 
 echo "==> Create GPT partition table on ${DISK}"
 /usr/bin/sgdisk -og ${DISK}
@@ -111,7 +113,9 @@ echo 'sergey ALL=(ALL) NOPASSWD: ALL' >> /etc/sudoers.d/10_sergey
 /usr/bin/chown sergey:sergey /home/sergey/.ssh/authorized_keys
 /usr/bin/chmod 0600 /home/sergey/.ssh/authorized_keys
 /usr/bin/sed -i 's/#PasswordAuthentication yes/PasswordAuthentication no/' /etc/ssh/sshd_config
+#
 /usr/bin/hwclock --systohc --utc
+/usr/bin/timedatectl set-ntp true
 # Clean the pacman cache.
 /usr/bin/yes | /usr/bin/pacman -Scc
 EOF
