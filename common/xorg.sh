@@ -3,8 +3,6 @@
 # run from bootstrapped machine: $ wget git.io/apfel_xorg -O - | sh
 # (created with: $ curl -i https://git.io -F "url=https://raw.githubusercontent.com/pisarenko-net/arch-bootstrap-scripts/master/common/xorg.sh" -F "code=apfel_xorg")
 
-AS="/usr/bin/sudo -u ${USER}"
-
 # install desktop environment
 echo '==> Installing desktop environment'
 /usr/bin/pacman -S --noconfirm xorg-server xorg-xinit lxdm xfce4
@@ -22,7 +20,7 @@ echo '==> Installing fonts'
 # install tools
 echo '==> Installing useful tools'
 /usr/bin/pacman -S --noconfirm terminator meld parcellite thunar-archive-plugin gvfs tk pinta
-#$AS /bin/dconf load /org/gnome/meld/ < /tmp/configs/meld
+$AS /bin/dconf load /org/gnome/meld/ < /tmp/configs/meld
 
 # install albert
 echo '==> Installing albert (AUR)'
@@ -42,7 +40,7 @@ cd ..
 $AS /usr/bin/rm -rf sublime-text-dev
 /usr/bin/echo 'alias subl="/bin/subl3"' >> /home/${USER}/.zshrc
 /usr/bin/echo 'alias mc="EDITOR=/bin/subl3 /bin/mc"' >> /home/${USER}/.zshrc
-#$AS /usr/bin/cp -r /tmp/configs/sublime-text-3 .config/
+$AS /usr/bin/cp -r /tmp/configs/sublime-text-3 .config/
 
 # install Google Chrome
 echo '==> Installing Google Chrome (AUR)'
@@ -54,7 +52,14 @@ cd ..
 $AS /usr/bin/rm -rf google-chrome
 
 # customize XFCE
-# TODO
+echo '==> Customizing XFCE'
+$AS /usr/bin/cp -r /tmp/configs/xfce4 .config/
+$AS /usr/bin/cp -r /tmp/configs/terminator .config/
+$AS /usr/bin/cp -r /tmp/configs/albert .config/
+$AS /usr/bin/cp -r /tmp/configs/autostart .config/
+/usr/bin/chown -R sergey:users .config
+$AS /usr/bin/mkdir /home/sergey/Pictures
+$AS /usr/bin/cp /tmp/wallpapers/* /home/sergey/Pictures
 
-# install Sublime license, when available
+# install Sublime license
 # TODO

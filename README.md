@@ -20,7 +20,7 @@ Bootstrap (run from Arch installer):
 $ wget git.io/apfel_nuc -O - | sh
 ```
 
-Stage 1 (run from the booted machine):
+Stage 1 (run from the booted machine, after completing bootstrap):
 ```
 $ wget git.io/apfel_nuc_install -O - | sh
 ```

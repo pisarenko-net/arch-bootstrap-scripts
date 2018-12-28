@@ -3,8 +3,6 @@
 # run from bootstrapped machine: $ wget git.io/apfel_cli -O - | sh
 # (created with: $ curl -i https://git.io -F "url=https://raw.githubusercontent.com/pisarenko-net/arch-bootstrap-scripts/master/common/cli.sh" -F "code=apfel_cli")
 
-export AS="/usr/bin/sudo -u ${USER}"
-
 # enable time sync
 echo "==> Enable time sync"
 /usr/bin/timedatectl set-ntp true
@@ -63,5 +61,9 @@ $AS sh -c 'echo "github.com,192.30.253.113 ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEAq
 # set-up PGP
 # TODO
 
-# custom configs
-# TODO
+echo '==> Setting up custom settings'
+cd /home/${USER}
+$AS /usr/bin/mkdir .config
+$AS /usr/bin/cp -r /tmp/configs/mc .config/
+$AS /usr/bin/mkdir .config/nvim
+$AS /usr/bin/cp -r /tmp/configs/nvim .config/nvim/init.vim
