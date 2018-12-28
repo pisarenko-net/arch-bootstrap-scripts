@@ -22,7 +22,7 @@ $ wget git.io/apfel_nuc -O - | sh
 
 Stage 1:
 ```
-$ wget TBD
+$ wget git.io/apfel_nuc_install -O - | sh
 ```
 
 ## Router

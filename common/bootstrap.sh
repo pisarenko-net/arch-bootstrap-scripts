@@ -105,13 +105,13 @@ echo "root:${ROOT_PASSWORD}" | /usr/bin/chpasswd
 /usr/bin/ln -s /dev/null /etc/udev/rules.d/80-net-setup-link.rules
 /usr/bin/netctl enable static_config
 /usr/bin/systemctl enable sshd.service
-/usr/bin/useradd --password ${PASSWORD} --create-home --user-group sergey
-echo 'sergey ALL=(ALL) NOPASSWD: ALL' >> /etc/sudoers.d/10_sergey
-/usr/bin/chmod 0440 /etc/sudoers.d/10_sergey
-/usr/bin/install --directory --owner=sergey --group=sergey --mode=0700 /home/sergey/.ssh
-/usr/bin/curl --output /home/sergey/.ssh/authorized_keys --location https://raw.githubusercontent.com/pisarenko-net/arch-bootstrap-scripts/master/master-key.pub
-/usr/bin/chown sergey:sergey /home/sergey/.ssh/authorized_keys
-/usr/bin/chmod 0600 /home/sergey/.ssh/authorized_keys
+/usr/bin/useradd --password ${PASSWORD} --create-home --user-group ${USER}
+echo '${USER} ALL=(ALL) NOPASSWD: ALL' >> /etc/sudoers.d/10_${USER}
+/usr/bin/chmod 0440 /etc/sudoers.d/10_${USER}
+/usr/bin/install --directory --owner=${USER} --group=${USER} --mode=0700 /home/${USER}/.ssh
+/usr/bin/curl --output /home/${USER}/.ssh/authorized_keys --location https://raw.githubusercontent.com/pisarenko-net/arch-bootstrap-scripts/master/master-key.pub
+/usr/bin/chown ${USER}:${USER} /home/${USER}/.ssh/authorized_keys
+/usr/bin/chmod 0600 /home/${USER}/.ssh/authorized_keys
 /usr/bin/sed -i 's/#PasswordAuthentication yes/PasswordAuthentication no/' /etc/ssh/sshd_config
 #
 /usr/bin/hwclock --systohc --utc
