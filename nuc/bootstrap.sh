@@ -27,3 +27,19 @@ export COUNTRY='CH'
 export MIRRORLIST="https://www.archlinux.org/mirrorlist/?country=${COUNTRY}&protocol=http&protocol=https&ip_version=4&use_mirror_status=on"
 
 eval "`/usr/bin/wget git.io/apfel_bootstrap -O -`"
+
+echo '==> Configuring network'
+/usr/bin/cat <<-EOF > "${TARGET_DIR}/etc/netctl/static_config"
+Interface=${IFACE}
+Connection=ethernet
+IP=static
+Address='${IP}'
+Gateway='${GW}'
+DNS='${GW}'
+EOF
+/usr/bin/arch-chroot ${TARGET_DIR} /usr/bin/netctl enable static_config
+
+echo '==> Install complete!'
+/usr/bin/sleep 5
+/usr/bin/umount ${TARGET_DIR}
+/usr/bin/reboot

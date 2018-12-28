@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Install a base bootable Arch system accessible over SSH.
+# Install a base bootable Arch system accessible over SSH. Networking setup is left for the specific device setup scripts.
 
 # run and execute from specific configuration scripts: $ wget git.io/apfel_bootstrap -O - | sh
 # (created with: $ curl -i https://git.io -F "url=https://raw.githubusercontent.com/pisarenko-net/arch-bootstrap-scripts/master/common/bootstrap.sh" -F "code=apfel_bootstrap")
@@ -66,16 +66,6 @@ echo '==> LVM work-around'
 /usr/bin/mkdir ${TARGET_DIR}/hostlvm
 /usr/bin/mount --bind /run/lvm ${TARGET_DIR}/hostlvm
 
-echo '==> Generating network configuration'
-/usr/bin/cat <<-EOF > "${TARGET_DIR}/etc/netctl/static_config"
-Interface=${IFACE}
-Connection=ethernet
-IP=static
-Address='${IP}'
-Gateway='${GW}'
-DNS='${GW}'
-EOF
-
 echo '==> Generating system configuration script'
 echo ${ROOT_PASSPHRASE} > ${ENC_KEY_PATH}
 /usr/bin/cat <<-EOF > "${TARGET_DIR}${CONFIG_SCRIPT}"
@@ -103,7 +93,6 @@ echo 'LANG=en_US.UTF-8' > /etc/locale.conf
 echo "root:${ROOT_PASSWORD}" | /usr/bin/chpasswd
 # https://wiki.archlinux.org/index.php/Network_Configuration#Device_names
 /usr/bin/ln -s /dev/null /etc/udev/rules.d/80-net-setup-link.rules
-/usr/bin/netctl enable static_config
 /usr/bin/systemctl enable sshd.service
 /usr/bin/useradd --password ${PASSWORD} --create-home --user-group ${USER}
 echo '${USER} ALL=(ALL) NOPASSWD: ALL' >> /etc/sudoers.d/10_${USER}
@@ -115,7 +104,6 @@ echo '${USER} ALL=(ALL) NOPASSWD: ALL' >> /etc/sudoers.d/10_${USER}
 /usr/bin/sed -i 's/#PasswordAuthentication yes/PasswordAuthentication no/' /etc/ssh/sshd_config
 #
 /usr/bin/hwclock --systohc --utc
-/usr/bin/timedatectl set-ntp true
 # Clean the pacman cache.
 /usr/bin/yes | /usr/bin/pacman -Scc
 EOF
@@ -128,9 +116,5 @@ echo '==> Entering chroot and configuring system'
 /usr/bin/umount ${TARGET_DIR}/hostlvm
 /usr/bin/rm -rf ${TARGET_DIR}/hostlvm
 
-echo '==> Install complete!'
-/usr/bin/sleep 5
 /usr/bin/umount ${TARGET_DIR}/boot/efi
 /usr/bin/umount ${TARGET_DIR}/boot
-/usr/bin/umount ${TARGET_DIR}
-/usr/bin/reboot
