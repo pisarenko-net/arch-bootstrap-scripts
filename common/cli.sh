@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # run from bootstrapped machine: $ wget git.io/apfel_cli -O - | sh
-# (created with: $ curl -i https://git.io -F "url=" -F "code=apfel_cli")
+# (created with: $ curl -i https://git.io -F "url=https://raw.githubusercontent.com/pisarenko-net/arch-bootstrap-scripts/master/common/cli.sh" -F "code=apfel_cli")
 
 export AS="/usr/bin/sudo -u ${USER}"
 

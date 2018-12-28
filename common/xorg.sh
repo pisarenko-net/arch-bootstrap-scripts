@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # run from bootstrapped machine: $ wget git.io/apfel_xorg -O - | sh
-# (created with: $ curl -i https://git.io -F "url=" -F "code=apfel_xorg")
+# (created with: $ curl -i https://git.io -F "url=https://raw.githubusercontent.com/pisarenko-net/arch-bootstrap-scripts/master/common/xorg.sh" -F "code=apfel_xorg")
 
 AS="/usr/bin/sudo -u ${USER}"
 
