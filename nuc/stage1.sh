@@ -34,8 +34,8 @@ echo '==> Installing X driver and enhancements'
 $AS /usr/bin/xfconf-query -c xfwm4 -p /general/use_compositing -s false
 $AS /usr/bin/cp -R /tmp/configs/compton.desktop /home/${USER}/.config/autostart/
 
-echo '==> Installing VirtualBox, vagrand, packer and scripts'
-/usr/bin/pacman -S --noconfirm virtualbox vagrand packer
+echo '==> Installing VirtualBox, vagrant, packer and scripts'
+/usr/bin/pacman -S --noconfirm virtualbox vagrant packer
 cd /home/${USER}
 $AS /usr/bin/git clone git@github.com:pisarenko-net/arch-bootstrap-scripts.git
 $AS /usr/bin/git clone git@github.com:pisarenko-net/arch-packer-vagrant.git
