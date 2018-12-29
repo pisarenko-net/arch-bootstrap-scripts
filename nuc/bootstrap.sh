@@ -5,7 +5,7 @@
 
 export DISK='/dev/nvme0n1'
 
-export FQDN='arch.bethania'
+export FQDN='nuc.bethania'
 export IP='192.168.69.20/24'
 export GW='192.168.69.1'
 export IFACE="eth0"

@@ -102,6 +102,13 @@ echo '${USER} ALL=(ALL) NOPASSWD: ALL' >> /etc/sudoers.d/10_${USER}
 /usr/bin/chown ${USER}:${USER} /home/${USER}/.ssh/authorized_keys
 /usr/bin/chmod 0600 /home/${USER}/.ssh/authorized_keys
 /usr/bin/sed -i 's/#PasswordAuthentication yes/PasswordAuthentication no/' /etc/ssh/sshd_config
+# install git-secret
+cd /home/${USER}
+/usr/bin/sudo -u ${USER} /usr/bin/git clone https://aur.archlinux.org/git-secret.git
+cd git-secret
+/usr/bin/sudo -u ${USER} /usr/bin/makepkg -si --noconfirm
+cd ..
+/usr/bin/sudo -u ${USER} /usr/bin/rm -rf git-secret
 #
 /usr/bin/hwclock --systohc --utc
 # Clean the pacman cache.

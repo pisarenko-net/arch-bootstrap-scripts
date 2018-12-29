@@ -41,6 +41,8 @@ $AS /usr/bin/rm -rf sublime-text-dev
 /usr/bin/echo 'alias subl="/bin/subl3"' >> /home/${USER}/.zshrc
 /usr/bin/echo 'alias mc="EDITOR=/bin/subl3 /bin/mc"' >> /home/${USER}/.zshrc
 $AS /usr/bin/cp -r /tmp/configs/sublime-text-3 .config/
+$AS /usr/bin/mkdir -p .config/sublime-text-3/Local/
+$AS /usr/bin/cp /tmp/private/License.sublime_license .config/sublime-text-3/Local/
 
 # install Google Chrome
 echo '==> Installing Google Chrome (AUR)'
@@ -60,6 +62,3 @@ $AS /usr/bin/cp -r /tmp/configs/autostart .config/
 /usr/bin/chown -R sergey:users .config
 $AS /usr/bin/mkdir /home/sergey/Pictures
 $AS /usr/bin/cp /tmp/wallpapers/* /home/sergey/Pictures
-
-# install Sublime license
-# TODO
