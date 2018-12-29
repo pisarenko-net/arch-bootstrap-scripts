@@ -41,7 +41,6 @@ $AS /usr/bin/git clone git@github.com:pisarenko-net/arch-bootstrap-scripts.git
 $AS /usr/bin/git clone git@github.com:pisarenko-net/arch-packer-vagrant.git
 
 echo '==> Cleaning up'
-/usr/bin/rm -f private.key
 $AS /usr/bin/gpg --batch --delete-secret-keys B01ACF22C49D7DE67F625C6F538D8B004CA3C11A
 /usr/bin/rm -rf /tmp/scripts-repo
 /usr/bin/rm -rf /tmp/configs
