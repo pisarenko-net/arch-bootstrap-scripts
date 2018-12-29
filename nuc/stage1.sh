@@ -15,7 +15,7 @@ if [ ! -f private.key ]; then
 fi
 
 echo "==> Importing GPG key for decrypting private configuration files"
-$AS /usr/bin/gpg --import private.key
+cat private.key | $AS /usr/bin/gpg --import
 
 echo "==> Downloading configuration files and unlocking private configuration files"
 $AS /usr/bin/git clone https://github.com/pisarenko-net/arch-bootstrap-scripts.git /tmp/scripts-repo
