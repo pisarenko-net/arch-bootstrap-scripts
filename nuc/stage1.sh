@@ -41,6 +41,10 @@ cd /
 /usr/bin/tar xvzf /tmp/private/bluetooth-pairings.tar.gz
 /usr/bin/systemctl enable bluetooth
 
+echo '==> Enabling better power management'
+/usr/bin/pacman -S --noconfirm tlp
+/usr/bin/systemctl enable tlp
+
 echo '==> Installing VirtualBox, vagrant, packer and scripts'
 /usr/bin/pacman -S --noconfirm virtualbox vagrant packer
 cd /home/${USER}
