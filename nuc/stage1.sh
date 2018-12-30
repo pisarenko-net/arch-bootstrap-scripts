@@ -34,6 +34,13 @@ echo '==> Installing X driver and enhancements'
 $AS /usr/bin/xfconf-query -c xfwm4 -p /general/use_compositing -s false
 $AS /usr/bin/cp -R /tmp/configs/compton.desktop /home/${USER}/.config/autostart/
 
+echo '==> Installing and configuring bluetooth'
+/usr/bin/pacman -S --noconfirm bluez bluez-utils
+/usr/bin/sed -i 's/#AutoEnable=false/AutoEnable=true/' /etc/bluetooth/main.conf
+cd /
+/usr/bin/tar xvzf /tmp/private/bluetooth-pairings.tar.gz
+/usr/bin/systemctl enable bluetooth
+
 echo '==> Installing VirtualBox, vagrant, packer and scripts'
 /usr/bin/pacman -S --noconfirm virtualbox vagrant packer
 cd /home/${USER}

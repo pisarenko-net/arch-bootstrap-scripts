@@ -18,7 +18,7 @@ echo "==> Setting default text editor"
 /usr/bin/echo 'VISUAL=nvim' >> /etc/environment
 
 echo "==> Enable passwordless sudo for wheel group"
-sed -i 's/# %wheel ALL=(ALL) NOPASSWD: ALL/%wheel ALL=(ALL) NOPASSWD: ALL/' /etc/sudoers
+/usr/bin/sed -i 's/# %wheel ALL=(ALL) NOPASSWD: ALL/%wheel ALL=(ALL) NOPASSWD: ALL/' /etc/sudoers
 
 echo "==> Update user ${USER}"
 /usr/bin/groupadd -r autologin
