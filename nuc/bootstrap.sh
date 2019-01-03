@@ -6,8 +6,6 @@
 export DISK='/dev/nvme0n1'
 
 export FQDN='nuc.bethania'
-export IP='192.168.69.20/24'
-export GW='192.168.69.1'
 export IFACE="eth0"
 export USER='sergey'
 export PASSWORD=$(/usr/bin/openssl passwd -crypt 'test')
@@ -29,15 +27,12 @@ export MIRRORLIST="https://www.archlinux.org/mirrorlist/?country=${COUNTRY}&prot
 eval "`/usr/bin/wget git.io/apfel_bootstrap -O -`"
 
 echo '==> Configuring network'
-/usr/bin/cat <<-EOF > "${TARGET_DIR}/etc/netctl/static_config"
+/usr/bin/cat <<-EOF > "${TARGET_DIR}/etc/netctl/ethernet-dhcp"
 Interface=${IFACE}
 Connection=ethernet
-IP=static
-Address='${IP}'
-Gateway='${GW}'
-DNS='${GW}'
+IP=dhcp
 EOF
-/usr/bin/arch-chroot ${TARGET_DIR} /usr/bin/netctl enable static_config
+/usr/bin/arch-chroot ${TARGET_DIR} /usr/bin/netctl enable ethernet-dhcp
 
 echo '==> Install complete!'
 /usr/bin/sleep 5
