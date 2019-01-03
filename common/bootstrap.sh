@@ -78,6 +78,7 @@ echo ${ROOT_PASSPHRASE} > ${ENC_KEY_PATH}
 /usr/bin/chmod 000 /crypto_keyfile.bin
 /usr/bin/cryptsetup luksAddKey ${ROOT_PARTITION} /crypto_keyfile.bin --key-file=/enc.key
 /usr/bin/sed -i 's\^FILES=.*\FILES="/crypto_keyfile.bin"\g' /etc/mkinitcpio.conf
+/usr/bin/sed -i 's/#udev_log="info"/udev_log=3/' /etc/udev/udev.conf
 #
 /usr/bin/mkinitcpio -p linux
 /usr/bin/chmod 600 /boot/initramfs-linux*

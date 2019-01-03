@@ -45,6 +45,7 @@ SkipNoCarrier=yes
 EOF
 /usr/bin/arch-chroot ${TARGET_DIR} /usr/bin/netctl enable wan
 /usr/bin/arch-chroot ${TARGET_DIR} /usr/bin/netctl enable trusted_lan
+echo 'resolv_conf_local_only=NO' >> /etc/resolvconf.conf
 
 echo '==> Install complete!'
 /usr/bin/sleep 5
