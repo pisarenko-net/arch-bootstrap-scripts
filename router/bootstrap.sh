@@ -39,6 +39,9 @@ Interface=${LAN_IFACE}
 Connection=ethernet
 IP=static
 Address=('192.168.10.1/24')
+
+ForceConnect=yes
+SkipNoCarrier=yes
 EOF
 /usr/bin/arch-chroot ${TARGET_DIR} /usr/bin/netctl enable wan
 /usr/bin/arch-chroot ${TARGET_DIR} /usr/bin/netctl enable trusted_lan
