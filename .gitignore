@@ -1,3 +1,4 @@
 .gitsecret/keys/random_seed
 nuc/private/*
+router/private/*
 !*.secret
