@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # run and execute after dropping into arch installer: $ wget git.io/apfel_router -O - | sh
-# (created with: $ curl -i https://git.io -F "url=" -F "code=apfel_router")
+# (created with: $ curl -i https://git.io -F "url=https://raw.githubusercontent.com/pisarenko-net/arch-bootstrap-scripts/master/router/bootstrap.sh" -F "code=apfel_router")
 
 export DISK='/dev/sda'
 
