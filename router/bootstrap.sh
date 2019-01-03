@@ -6,8 +6,8 @@
 export DISK='/dev/sda'
 
 export FQDN='router.bethania'
-export WAN_IFACE="enp1s0"
-export LAN_IFACE="enp2s0"
+export WAN_IFACE="eth0"
+export LAN_IFACE="eth1"
 export USER='sergey'
 export PASSWORD=$(/usr/bin/openssl passwd -crypt 'test')
 export ROOT_PASSWORD=`/usr/bin/openssl rand -base64 32`
