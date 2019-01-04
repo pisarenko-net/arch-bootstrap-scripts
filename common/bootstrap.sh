@@ -57,7 +57,7 @@ echo '==> Generating the filesystem table'
 
 echo '==> Altering default GRUB configuration'
 /usr/bin/sed -i 's/GRUB_TIMEOUT=.*/GRUB_TIMEOUT=0/' "${TARGET_DIR}/etc/default/grub"
-/usr/bin/sed -i "s/GRUB_CMDLINE_LINUX_DEFAULT=.*/GRUB_CMDLINE_LINUX_DEFAULT=\"quiet cryptdevice=UUID=$(blkid ${ROOT_PARTITION} -s UUID -o value):cryptlvm\"/" "${TARGET_DIR}/etc/default/grub"
+/usr/bin/sed -i "s/GRUB_CMDLINE_LINUX_DEFAULT=.*/GRUB_CMDLINE_LINUX_DEFAULT=\"quiet rd.udev.log-priority=3 cryptdevice=UUID=$(blkid ${ROOT_PARTITION} -s UUID -o value):cryptlvm\"/" "${TARGET_DIR}/etc/default/grub"
 
 echo '==> Generating the system configuration script'
 /usr/bin/install --mode=0755 /dev/null "${TARGET_DIR}${CONFIG_SCRIPT}"

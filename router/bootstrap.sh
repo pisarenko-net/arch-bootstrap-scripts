@@ -32,7 +32,7 @@ echo '==> Configuring networks'
 Interface=${WAN_IFACE}
 Connection=ethernet
 IP=dhcp
-DNS=('127.0.0.1' '8.8.8.8' '8.8.4.4')
+DNS=('8.8.8.8' '8.8.4.4')
 EOF
 /usr/bin/cat <<-EOF > "${TARGET_DIR}/etc/netctl/trusted_lan"
 Interface=${LAN_IFACE}
@@ -45,7 +45,8 @@ SkipNoCarrier=yes
 EOF
 /usr/bin/arch-chroot ${TARGET_DIR} /usr/bin/netctl enable wan
 /usr/bin/arch-chroot ${TARGET_DIR} /usr/bin/netctl enable trusted_lan
-echo 'resolv_conf_local_only=NO' >> /etc/resolvconf.conf
+/usr/bin/arch-chroot ${TARGET_DIR} /usr/bin/pacman -S --noconfirm ifplugd
+/usr/bin/arch-chroot ${TARGET_DIR} /usr/bin/systemctl enable netctl-ifplugd@eth0.service
 
 echo '==> Install complete!'
 /usr/bin/sleep 5
