@@ -84,6 +84,7 @@ echo ${ROOT_PASSPHRASE} > ${ENC_KEY_PATH}
 /usr/bin/chmod 600 /boot/initramfs-linux*
 #
 /usr/bin/grub-mkconfig -o /boot/grub/grub.cfg
+/usr/bin/sed '/echo/d' /boot/grub/grub.cfg
 #
 echo '${FQDN}' > /etc/hostname
 /usr/bin/ln -sf /usr/share/zoneinfo/${TIMEZONE} /etc/localtime
