@@ -37,6 +37,7 @@ echo '==> Setting OpenSSH to listen only on the trusted network'
 echo '==> Setup dnsmasq (DHCP + DNS)'
 /usr/bin/pacman -S --noconfirm dnsmasq
 /usr/bin/cp /tmp/private/dnsmasq.conf /etc/
+/usr/bin/cp /tmp/private/hosts /etc/
 /usr/bin/systemctl enable dnsmasq
 /usr/bin/systemctl start dnsmasq
 /usr/bin/sed -i "s/DNS=.*/DNS=\('127.0.0.1'\)/" /etc/netctl/wan
