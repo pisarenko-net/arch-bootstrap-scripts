@@ -71,18 +71,17 @@ echo ${ROOT_PASSPHRASE} > ${ENC_KEY_PATH}
 /usr/bin/cat <<-EOF > "${TARGET_DIR}${CONFIG_SCRIPT}"
 /usr/bin/ln -s /hostlvm /run/lvm
 /usr/bin/sed -i 's/HOOKS=.*/HOOKS=(base udev autodetect modconf block keymap encrypt lvm2 filesystems keyboard fsck)/' /etc/mkinitcpio.conf
-# GRUB bootloader installation
-/usr/bin/grub-install --target=x86_64-efi --efi-directory=/boot/efi --bootloader-id=ArchLinux
 # keyless boot
 /usr/bin/dd bs=512 count=8 if=/dev/urandom of=/crypto_keyfile.bin
 /usr/bin/chmod 000 /crypto_keyfile.bin
 /usr/bin/cryptsetup luksAddKey ${ROOT_PARTITION} /crypto_keyfile.bin --key-file=/enc.key
 /usr/bin/sed -i 's\^FILES=.*\FILES="/crypto_keyfile.bin"\g' /etc/mkinitcpio.conf
-/usr/bin/sed -i 's/#udev_log="info"/udev_log=3/' /etc/udev/udev.conf
 #
 /usr/bin/mkinitcpio -p linux
 /usr/bin/chmod 600 /boot/initramfs-linux*
 #
+# GRUB bootloader installation
+/usr/bin/grub-install --target=x86_64-efi --efi-directory=/boot/efi --bootloader-id=ArchLinux
 /usr/bin/grub-mkconfig -o /boot/grub/grub.cfg
 /usr/bin/sed '/echo/d' /boot/grub/grub.cfg
 #

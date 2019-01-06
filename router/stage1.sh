@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # run from bootstrapped machine: $ wget git.io/apfel_router_install -O - | sh
-# (created with: $ curl -i https://git.io -F "url=" -F "code=apfel_router_install")
+# (created with: $ curl -i https://git.io -F "url=https://raw.githubusercontent.com/pisarenko-net/arch-bootstrap-scripts/master/router/stage1.sh" -F "code=apfel_router_install")
 
 export USER="sergey"
 export DOMAIN="pisarenko.net"
@@ -31,8 +31,15 @@ echo '==> Enabling better power management'
 /usr/bin/pacman -S --noconfirm tlp
 /usr/bin/systemctl enable tlp
 
-echo '==> '
+echo '==> Setting OpenSSH to listen only on the trusted network'
 /usr/bin/sed -i 's/#ListenAddress 0.0.0.0/ListenAddress 192.168.10.1/' /etc/ssh/sshd_config
+
+echo '==> Setup dnsmasq (DHCP + DNS)'
+/usr/bin/pacman -S --noconfirm dnsmasq
+/usr/bin/cp /tmp/private/dnsmasq.conf /etc/
+/usr/bin/systemctl enable dnsmasq
+/usr/bin/systemctl start dnsmasq
+/usr/bin/sed -i "s/DNS=.*/DNS=\('127.0.0.1'\)/" /etc/netctl/wan
 
 echo '==> Cleaning up'
 /usr/bin/rm -rf /tmp/scripts-repo
