@@ -59,6 +59,9 @@ $AS /usr/bin/cp -r /tmp/configs/mc .config/
 $AS /usr/bin/mkdir .config/nvim
 $AS /usr/bin/cp -r /tmp/configs/nvim .config/nvim/init.vim
 
+echo '==> Setting up MOTD'
+/usr/bin/cp /tmp/configs/motd /etc/motd
+
 echo '==> Resetting default password'
 RANDOM_PASSWORD=`/usr/bin/openssl rand -base64 32`
 echo "${USER}:${RANDOM_PASSWORD}" | /usr/bin/chpasswd
