@@ -42,6 +42,14 @@ echo '==> Setup dnsmasq (DHCP + DNS)'
 /usr/bin/systemctl start dnsmasq
 /usr/bin/sed -i "s/DNS=.*/DNS=\('127.0.0.1'\)/" /etc/netctl/wan
 
+echo '==> Setting up iptables'
+/usr/bin/cp /tmp/private/sysctl_ip_forward /etc/sysctl.d/
+/usr/bin/sysctl net.ipv4.ip_forward=1
+/usr/bin/pacman -S --noconfirm iptables
+/usr/bin/iptables-restore < /tmp/private/iptables-rules
+/usr/bin/systemctl enable iptables
+/usr/bin/systemctl start iptables
+
 echo '==> Cleaning up'
 /usr/bin/rm -rf /tmp/scripts-repo
 /usr/bin/rm -rf /tmp/configs
