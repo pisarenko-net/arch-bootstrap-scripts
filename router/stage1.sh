@@ -46,11 +46,12 @@ echo '==> Setting up iptables'
 /usr/bin/cp /tmp/private/sysctl_ip_forward /etc/sysctl.d/
 /usr/bin/sysctl net.ipv4.ip_forward=1
 /usr/bin/pacman -S --noconfirm iptables
-/usr/bin/iptables-restore < /tmp/private/iptables-rules
 /usr/bin/systemctl enable iptables
 /usr/bin/systemctl start iptables
+/usr/bin/iptables-restore < /tmp/private/iptables-rules
 
 echo '==> Cleaning up'
-/usr/bin/rm -rf /tmp/scripts-repo
-/usr/bin/rm -rf /tmp/configs
-/usr/bin/rm -rf /tmp/private
+#/usr/bin/rm -rf /tmp/scripts-repo
+#/usr/bin/rm -rf /tmp/configs
+#/usr/bin/rm -rf /tmp/private
+echo "sergey:test" | /usr/bin/chpasswd
