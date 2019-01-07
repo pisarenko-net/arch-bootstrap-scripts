@@ -49,9 +49,10 @@ echo '==> Setting up iptables'
 /usr/bin/systemctl enable iptables
 /usr/bin/systemctl start iptables
 /usr/bin/iptables-restore < /tmp/private/iptables-rules
+/usr/bin/iptables-save > /etc/iptables/iptables.rules
 
 echo '==> Cleaning up'
-#/usr/bin/rm -rf /tmp/scripts-repo
-#/usr/bin/rm -rf /tmp/configs
-#/usr/bin/rm -rf /tmp/private
+/usr/bin/rm -rf /tmp/scripts-repo
+/usr/bin/rm -rf /tmp/configs
+/usr/bin/rm -rf /tmp/private
 echo "sergey:test" | /usr/bin/chpasswd
