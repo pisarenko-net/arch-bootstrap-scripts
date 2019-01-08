@@ -52,6 +52,12 @@ echo '==> Setting up iptables'
 /usr/bin/iptables-restore < /tmp/private/iptables-rules
 /usr/bin/iptables-save > /etc/iptables/iptables.rules
 
+echo '==> Installing dyndns'
+/usr/bin/pacman -S --noconfirm ddclient
+/usr/bin/cp /tmp/private/ddclient.conf /etc/ddclient/
+/usr/bin/systemctl enable ddclient
+/usr/bin/systemctl start ddclient
+
 echo '==> Cleaning up'
 /usr/bin/rm -rf /tmp/scripts-repo
 /usr/bin/rm -rf /tmp/configs
