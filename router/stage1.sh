@@ -24,6 +24,7 @@ $AS /usr/bin/git secret reveal
 $AS /usr/bin/cp -R /tmp/scripts-repo/common/configs /tmp/configs
 $AS /usr/bin/cp -R /tmp/scripts-repo/router/configs/* /tmp/configs/
 $AS /usr/bin/cp -R /tmp/scripts-repo/router/private /tmp/private
+$AS /usr/bin/rm /tmp/private/*secret
 
 eval "`/usr/bin/wget git.io/apfel_cli -O -`"
 

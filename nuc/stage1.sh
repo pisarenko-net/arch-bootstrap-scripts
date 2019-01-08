@@ -25,6 +25,7 @@ $AS /usr/bin/cp -R /tmp/scripts-repo/common/configs /tmp/configs
 $AS /usr/bin/cp -R /tmp/scripts-repo/nuc/configs/* /tmp/configs/
 $AS /usr/bin/cp -R /tmp/scripts-repo/common/wallpapers /tmp/wallpapers
 $AS /usr/bin/cp -R /tmp/scripts-repo/nuc/private /tmp/private
+$AS /usr/bin/rm /tmp/private/*secret
 
 eval "`/usr/bin/wget git.io/apfel_cli -O -`"
 eval "`/usr/bin/wget git.io/apfel_xorg -O -`"
