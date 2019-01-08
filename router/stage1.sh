@@ -56,4 +56,3 @@ echo '==> Cleaning up'
 /usr/bin/rm -rf /tmp/scripts-repo
 /usr/bin/rm -rf /tmp/configs
 /usr/bin/rm -rf /tmp/private
-echo "sergey:test" | /usr/bin/chpasswd
