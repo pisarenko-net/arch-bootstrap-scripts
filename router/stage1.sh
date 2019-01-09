@@ -48,6 +48,18 @@ EOF
 /usr/bin/netctl enable untrusted_vlan
 /usr/bin/netctl start untrusted_vlan
 
+echo '==> Setting up semi-trusted VLAN'
+/usr/bin/cat <<-EOF > "${TARGET_DIR}/etc/netctl/semi_trusted_vlan"
+Interface=${LAN_IFACE}.20
+Connection=vlan
+BindsToInterfaces=${LAN_IFACE}
+VLANID=20
+IP=static
+Address="192.168.20.1/24"
+EOF
+/usr/bin/netctl enable semi_trusted_vlan
+/usr/bin/netctl start semi_trusted_vlan
+
 echo '==> Setup dnsmasq (DHCP + DNS)'
 /usr/bin/pacman -S --noconfirm dnsmasq
 /usr/bin/cp /tmp/private/dnsmasq.conf /etc/
