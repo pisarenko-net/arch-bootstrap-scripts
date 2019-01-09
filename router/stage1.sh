@@ -6,6 +6,7 @@
 export USER="sergey"
 export DOMAIN="pisarenko.net"
 export FULL_NAME="Sergey Pisarenko"
+export LAN_IFACE="eth1"
 
 export AS="/usr/bin/sudo -u ${USER}"
 
@@ -34,6 +35,18 @@ echo '==> Enabling better power management'
 
 echo '==> Setting OpenSSH to listen only on the trusted network'
 /usr/bin/sed -i 's/#ListenAddress 0.0.0.0/ListenAddress 192.168.10.1/' /etc/ssh/sshd_config
+
+echo '==> Setting up untrusted/IoT VLAN'
+/usr/bin/cat <<-EOF > "${TARGET_DIR}/etc/netctl/untrusted_vlan"
+Interface=${LAN_IFACE}.30
+Connection=vlan
+BindsToInterfaces=${LAN_IFACE}
+VLANID=30
+IP=static
+Address="192.168.30.1/24"
+EOF
+/usr/bin/arch-chroot ${TARGET_DIR} /usr/bin/netctl enable untrusted_vlan
+/usr/bin/arch-chroot ${TARGET_DIR} /usr/bin/netctl start untrusted_vlan
 
 echo '==> Setup dnsmasq (DHCP + DNS)'
 /usr/bin/pacman -S --noconfirm dnsmasq
