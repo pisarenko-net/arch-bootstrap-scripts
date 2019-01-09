@@ -43,7 +43,6 @@ Address=('192.168.10.1/24')
 ForceConnect=yes
 SkipNoCarrier=yes
 EOF
-/usr/bin/arch-chroot ${TARGET_DIR} /usr/bin/netctl enable wan
 /usr/bin/arch-chroot ${TARGET_DIR} /usr/bin/netctl enable trusted_lan
 /usr/bin/arch-chroot ${TARGET_DIR} /usr/bin/pacman -S --noconfirm ifplugd
 /usr/bin/arch-chroot ${TARGET_DIR} /usr/bin/systemctl enable netctl-ifplugd@eth0.service
