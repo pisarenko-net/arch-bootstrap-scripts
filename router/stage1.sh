@@ -45,8 +45,8 @@ VLANID=30
 IP=static
 Address="192.168.30.1/24"
 EOF
-/usr/bin/arch-chroot ${TARGET_DIR} /usr/bin/netctl enable untrusted_vlan
-/usr/bin/arch-chroot ${TARGET_DIR} /usr/bin/netctl start untrusted_vlan
+/usr/bin/netctl enable untrusted_vlan
+/usr/bin/netctl start untrusted_vlan
 
 echo '==> Setup dnsmasq (DHCP + DNS)'
 /usr/bin/pacman -S --noconfirm dnsmasq
