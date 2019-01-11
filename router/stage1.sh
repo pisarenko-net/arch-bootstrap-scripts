@@ -60,6 +60,18 @@ EOF
 /usr/bin/netctl enable semi_trusted_vlan
 /usr/bin/netctl start semi_trusted_vlan
 
+echo '==> Setting up guest VLAN'
+/usr/bin/cat <<-EOF > "${TARGET_DIR}/etc/netctl/guest_vlan"
+Interface=${LAN_IFACE}.40
+Connection=vlan
+BindsToInterfaces=${LAN_IFACE}
+VLANID=40
+IP=static
+Address="192.168.40.1/24"
+EOF
+/usr/bin/netctl enable guest_vlan
+/usr/bin/netctl start guest_vlan
+
 echo '==> Setup dnsmasq (DHCP + DNS)'
 /usr/bin/pacman -S --noconfirm dnsmasq
 /usr/bin/cp /tmp/private/dnsmasq.conf /etc/
