@@ -77,6 +77,13 @@ echo '==> Setting up iptables'
 /usr/bin/iptables-restore < /tmp/private/iptables-rules
 /usr/bin/iptables-save > /etc/iptables/iptables.rules
 
+echo '==> Setting up avahi'
+/usr/bin/pacman -S --noconfirm avahi
+/usr/bin/systemctl restart dbus
+/usr/bin/cp /tmp/private/avahi-daemon.conf /etc/avahi/
+/usr/bin/systemctl enable avahi-daemon
+/usr/bin/systemctl start avahi-daemon
+
 echo '==> Installing dyndns'
 /usr/bin/pacman -S --noconfirm ddclient
 /usr/bin/cp /tmp/private/ddclient.conf /etc/ddclient/
