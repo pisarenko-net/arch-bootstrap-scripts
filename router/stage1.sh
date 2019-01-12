@@ -140,6 +140,14 @@ $AS /usr/bin/rm -rf rslsync
 /usr/bin/systemctl enable rslsync
 /usr/bin/systemctl start rslsync
 
+echo "==> Configuring Samba for incoming drive access"
+/usr/bin/pacman -S --noconfirm samba
+/usr/bin/cp /tmp/private/smb.conf /etc/samba/
+/usr/bin/systemctl enable smb
+/usr/bin/systemctl enable nmb
+/usr/bin/systemctl start smb
+/usr/bin/systemctl start nmb
+
 echo '==> Cleaning up'
 /usr/bin/rm -rf /tmp/scripts-repo
 /usr/bin/rm -rf /tmp/configs
