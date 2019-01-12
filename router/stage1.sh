@@ -7,7 +7,7 @@ export USER="sergey"
 export DOMAIN="pisarenko.net"
 export FULL_NAME="Sergey Pisarenko"
 export LAN_IFACE="eth1"
-export INCOMING_DRIVE="sdb"
+export INCOMING_DRIVE="/dev/sdb"
 
 export AS="/usr/bin/sudo -u ${USER}"
 
@@ -122,10 +122,11 @@ echo "==> Configuring incoming drive"
 /usr/bin/sgdisk -og ${INCOMING_DRIVE}
 ENDSECTOR=`/usr/bin/sgdisk -E ${INCOMING_DRIVE}`
 /usr/bin/sgdisk -n 1:2048:${ENDSECTOR} -c 1:"Incoming drive" -t 1:8300 ${INCOMING_DRIVE}
-/usr/bin/mkfs.btrfs /dev/${INCOMING_DRIVE}1
-UUID=`/usr/bin/blkid -s UUID -o value /dev/${INCOMING_DRIVE}1`
-echo "\n\n# /dev/${INCOMING_DRIVE}1\nUUID=${UUID}       /mnt/incoming   btrfs           rw,relatime,ssd,space_cache,subvolid=5,subvol=/ 0 2" >> /etc/fstab
-/usr/bin/pacman -R --noconfirm gdisk
+/usr/bin/mkfs.btrfs -f ${INCOMING_DRIVE}1
+UUID=`/usr/bin/blkid -s UUID -o value ${INCOMING_DRIVE}1`
+echo "# ${INCOMING_DRIVE}1" >> /etc/fstab
+echo "UUID=${UUID}       /mnt/incoming   btrfs           rw,relatime,ssd,space_cache,subvolid=5,subvol=/ 0 2" >> /etc/fstab
+/usr/bin/pacman -R --noconfirm gptfdisk
 /usr/bin/mkdir /mnt/incoming
 /usr/bin/mount /mnt/incoming
 cd /home/${USER}
