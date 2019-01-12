@@ -89,12 +89,26 @@ echo '==> Setting up iptables'
 /usr/bin/iptables-restore < /tmp/private/iptables-rules
 /usr/bin/iptables-save > /etc/iptables/iptables.rules
 
-echo '==> Setting up avahi'
-/usr/bin/pacman -S --noconfirm avahi
-/usr/bin/systemctl restart dbus
-/usr/bin/cp /tmp/private/avahi-daemon.conf /etc/avahi/
-/usr/bin/systemctl enable avahi-daemon
-/usr/bin/systemctl start avahi-daemon
+echo '==> Setting up multicast relay'
+/usr/bin/cp /tmp/configs/multicast-relay.py /usr/local/bin/
+/usr/bin/pacman -S --noconfirm python2 python2-netifaces
+/usr/bin/cat <<-EOF > "${TARGET_DIR}/etc/systemctl/system/multicast-relay.service"
+[Unit]
+Description=Multicast relay service
+After=network.target
+
+[Service]
+Type=forking
+User=root
+WorkingDirectory=/tmp
+ExecStart=/usr/bin/python2 /usr/local/bin/multicast-relay.py --interfaces ${LAN_IFACE}.20 ${LAN_IFACE}.30
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target
+EOF
+/usr/bin/systemctl enable multicast-relay
+/usr/bin/systemctl start multicast-relay
 
 echo '==> Installing dyndns'
 /usr/bin/pacman -S --noconfirm ddclient
