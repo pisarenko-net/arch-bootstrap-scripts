@@ -92,7 +92,7 @@ echo '==> Setting up iptables'
 echo '==> Setting up multicast relay'
 /usr/bin/cp /tmp/configs/multicast-relay.py /usr/local/bin/
 /usr/bin/pacman -S --noconfirm python2 python2-netifaces
-/usr/bin/cat <<-EOF > "${TARGET_DIR}/etc/systemctl/system/multicast-relay.service"
+/usr/bin/cat <<-EOF > "${TARGET_DIR}/etc/systemd/system/multicast-relay.service"
 [Unit]
 Description=Multicast relay service
 After=network.target
