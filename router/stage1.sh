@@ -95,7 +95,7 @@ echo '==> Setting up multicast relay'
 /usr/bin/cat <<-EOF > "${TARGET_DIR}/etc/systemd/system/multicast-relay.service"
 [Unit]
 Description=Multicast relay service
-After=network.target
+After=netctl@semi_trusted_vlan.service netctl@untrusted_vlan.service
 
 [Service]
 Type=forking
