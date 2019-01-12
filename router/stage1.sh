@@ -7,6 +7,7 @@ export USER="sergey"
 export DOMAIN="pisarenko.net"
 export FULL_NAME="Sergey Pisarenko"
 export LAN_IFACE="eth1"
+export INCOMING_DRIVE="sdb"
 
 export AS="/usr/bin/sudo -u ${USER}"
 
@@ -115,6 +116,28 @@ echo '==> Installing dyndns'
 /usr/bin/cp /tmp/private/ddclient.conf /etc/ddclient/
 /usr/bin/systemctl enable ddclient
 /usr/bin/systemctl start ddclient
+
+echo "==> Configuring incoming drive"
+/usr/bin/pacman -S --noconfirm gdisk
+/usr/bin/sgdisk -og ${INCOMING_DRIVE}
+ENDSECTOR=`/usr/bin/sgdisk -E ${INCOMING_DRIVE}`
+/usr/bin/sgdisk -n 1:2048:${ENDSECTOR} -c 1:"Incoming drive" -t 1:8300 ${INCOMING_DRIVE}
+/usr/bin/mkfs.btrfs /dev/${INCOMING_DRIVE}1
+UUID=`/usr/bin/blkid -s UUID -o value /dev/${INCOMING_DRIVE}1`
+echo "\n\n# /dev/${INCOMING_DRIVE}1\nUUID=${UUID}       /mnt/incoming   btrfs           rw,relatime,ssd,space_cache,subvolid=5,subvol=/ 0 2" >> /etc/fstab
+/usr/bin/pacman -R --noconfirm gdisk
+/usr/bin/mkdir /mnt/incoming
+/usr/bin/mount /mnt/incoming
+cd /home/${USER}
+$AS /usr/bin/git clone https://aur.archlinux.org/rslsync.git
+cd rslsync
+$AS /usr/bin/makepkg -si --noconfirm
+cd ..
+$AS /usr/bin/rm -rf rslsync
+/usr/bin/cp /tmp/private/rslsync.conf /etc/
+/usr/bin/chown rslsync:rslsync /mnt/incoming
+/usr/bin/systemctl enable rslsync
+/usr/bin/systemctl start rslsync
 
 echo '==> Cleaning up'
 /usr/bin/rm -rf /tmp/scripts-repo
