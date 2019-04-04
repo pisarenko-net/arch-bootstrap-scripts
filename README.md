@@ -29,22 +29,10 @@ $ wget git.io/apfel_nuc_install -O - | sh
 
 Bootstrap:
 ```
-$ wget TBD
+$ wget git.io/apfel_router -O - | sh
 ```
 
 Stage 1:
 ```
-$ wget TBD
-```
-
-## Raspberry
-
-Bootstrap:
-```
-$ wget TBD
-```
-
-Stage 1:
-```
-$ wget TBD
+$ wget git.io/apfel_router_install -O - | sh
 ```
