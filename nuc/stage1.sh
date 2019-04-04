@@ -52,6 +52,14 @@ cd /home/${USER}
 $AS /usr/bin/git clone git@github.com:pisarenko-net/arch-bootstrap-scripts.git
 $AS /usr/bin/git clone git@github.com:pisarenko-net/arch-packer-vagrant.git
 
+echo '==> Installing VirtualBox extensions'
+cd /home/${USER}
+$AS /usr/bin/git clone https://aur.archlinux.org/virtualbox-ext-oracle.git
+cd virtualbox-ext-oracle.git
+$AS /usr/bin/makepkg -si --noconfirm
+cd ..
+$AS /usr/bin/rm -rf virtualbox-ext-oracle.git
+
 echo '==> Cleaning up'
 $AS /usr/bin/gpg --batch --delete-secret-keys B01ACF22C49D7DE67F625C6F538D8B004CA3C11A
 /usr/bin/rm -rf /tmp/scripts-repo
