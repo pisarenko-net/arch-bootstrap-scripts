@@ -19,6 +19,8 @@ fi
 echo "==> Importing GPG key for decrypting private configuration files"
 cat private.key | $AS /usr/bin/gpg --import
 
+eval "`/usr/bin/wget git.io/apfel_stage1 -O -`"
+
 echo "==> Downloading configuration files and unlocking private configuration files"
 $AS /usr/bin/git clone https://github.com/pisarenko-net/arch-bootstrap-scripts.git /tmp/scripts-repo
 cd /tmp/scripts-repo
