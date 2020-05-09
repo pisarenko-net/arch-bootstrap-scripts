@@ -103,6 +103,8 @@ echo '${USER} ALL=(ALL) NOPASSWD: ALL' >> /etc/sudoers.d/10_${USER}
 /usr/bin/chown ${USER}:${USER} /home/${USER}/.ssh/authorized_keys
 /usr/bin/chmod 0600 /home/${USER}/.ssh/authorized_keys
 /usr/bin/sed -i 's/#PasswordAuthentication yes/PasswordAuthentication no/' /etc/ssh/sshd_config
+/usr/bin/ln -s /usr/bin/nvim /usr/bin/vi
+/usr/bin/ln -s /usr/bin/nvim /usr/bin/vim
 #
 /usr/bin/hwclock --systohc --utc
 # Clean the pacman cache.
