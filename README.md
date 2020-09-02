@@ -17,22 +17,22 @@ Common scripts are placed in `common` folder. For example, the bootstrap is iden
 
 Bootstrap (run from Arch installer):
 ```
-$ wget git.io/apfel_nuc -O - | sh
+$ curl -L git.io/apfel_nuc | sh
 ```
 
 Stage 1 (run from the booted machine, after completing bootstrap):
 ```
-$ wget git.io/apfel_nuc_install -O - | sh
+$ curl -L git.io/apfel_nuc_install | sh
 ```
 
 ## Router
 
 Bootstrap:
 ```
-$ wget git.io/apfel_router -O - | sh
+$ curl -L git.io/apfel_router | sh
 ```
 
 Stage 1:
 ```
-$ wget git.io/apfel_router_install -O - | sh
+$ curl -L git.io/apfel_router_install | sh
 ```
