@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# run and execute after dropping into arch installer: $ wget git.io/apfel_router -O - | sh
+# run and execute after dropping into arch installer: $ curl -L git.io/apfel_router | sh
 # (created with: $ curl -i https://git.io -F "url=https://raw.githubusercontent.com/pisarenko-net/arch-bootstrap-scripts/master/router/bootstrap.sh" -F "code=apfel_router")
 
 export DISK='/dev/sda'
@@ -25,7 +25,7 @@ export ENC_KEY_PATH="${TARGET_DIR}/enc.key"
 export COUNTRY='CH'
 export MIRRORLIST="https://www.archlinux.org/mirrorlist/?country=${COUNTRY}&protocol=http&protocol=https&ip_version=4&use_mirror_status=on"
 
-eval "`/usr/bin/wget git.io/apfel_bootstrap -O -`"
+eval "`/usr/bin/curl -L git.io/apfel_bootstrap`"
 
 echo '==> Configuring networks'
 /usr/bin/cat <<-EOF > "${TARGET_DIR}/etc/netctl/wan"
