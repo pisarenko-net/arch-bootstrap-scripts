@@ -19,8 +19,17 @@ echo '==> Installing fonts'
 
 # install tools
 echo '==> Installing useful tools'
-/usr/bin/pacman -S --noconfirm terminator meld parcellite thunar-archive-plugin gvfs tk pinta
+/usr/bin/pacman -S --noconfirm terminator meld parcellite thunar-archive-plugin gvfs tk
 $AS /bin/dconf load /org/gnome/meld/ < /tmp/configs/meld
+
+# install pinta
+echo '==> Installing pinta (AUR)'
+cd /home/${USER}
+$AS /usr/bin/git clone https://aur.archlinux.org/pinta.git
+cd pinta
+$AS /usr/bin/makepkg -si --noconfirm
+cd ..
+$AS /usr/bin/rm -rf pinta
 
 # install albert
 echo '==> Installing albert (AUR)'
