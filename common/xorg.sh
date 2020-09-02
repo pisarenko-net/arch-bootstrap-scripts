@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# run from bootstrapped machine: $ wget git.io/apfel_xorg -O - | sh
+# run from bootstrapped machine: $ curl -L git.io/apfel_xorg | sh
 # (created with: $ curl -i https://git.io -F "url=https://raw.githubusercontent.com/pisarenko-net/arch-bootstrap-scripts/master/common/xorg.sh" -F "code=apfel_xorg")
 
 # install desktop environment
