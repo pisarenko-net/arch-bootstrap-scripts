@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# run from bootstrapped machine: $ wget git.io/apfel_nuc_install -O - | sh
+# run from bootstrapped machine: $ curl -L git.io/apfel_nuc_install | sh
 # (created with: $ curl -i https://git.io -F "url=https://raw.githubusercontent.com/pisarenko-net/arch-bootstrap-scripts/master/nuc/stage1.sh" -F "code=apfel_nuc_install")
 
 export USER="sergey"
@@ -17,7 +17,7 @@ fi
 echo "==> Importing GPG key for decrypting private configuration files"
 cat private.key | $AS /usr/bin/gpg --import
 
-eval "`/usr/bin/wget git.io/apfel_stage1 -O -`"
+eval "`/usr/bin/curl -L git.io/apfel_stage1`"
 
 echo "==> Downloading configuration files and unlocking private configuration files"
 $AS /usr/bin/git clone https://github.com/pisarenko-net/arch-bootstrap-scripts.git /tmp/scripts-repo
@@ -29,8 +29,8 @@ $AS /usr/bin/cp -R /tmp/scripts-repo/common/wallpapers /tmp/wallpapers
 $AS /usr/bin/cp -R /tmp/scripts-repo/nuc/private /tmp/private
 $AS /usr/bin/rm /tmp/private/*secret
 
-eval "`/usr/bin/wget git.io/apfel_cli -O -`"
-eval "`/usr/bin/wget git.io/apfel_xorg -O -`"
+eval "`/usr/bin/curl -L git.io/apfel_cli`"
+eval "`/usr/bin/curl -L git.io/apfel_xorg`"
 
 echo '==> Installing X driver and enhancements'
 /usr/bin/pacman -S --noconfirm xf86-video-intel compton
