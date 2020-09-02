@@ -2,7 +2,7 @@
 
 # Run setup procedures for stage1.
 
-# run and execute from specific configuration scripts: $ wget git.io/apfel_stage1 -O - | sh
+# run and execute from specific configuration scripts: $ curl -L git.io/apfel_stage1 | sh
 # (created with: $ curl -i https://git.io -F "url=https://raw.githubusercontent.com/pisarenko-net/arch-bootstrap-scripts/master/common/stage1.sh" -F "code=apfel_stage1")
 
 # install git-secret
