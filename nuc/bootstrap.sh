@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# run and execute after dropping into arch installer: $ wget git.io/apfel_nuc -O - | sh
+# run and execute after dropping into arch installer: $ curl -L git.io/apfel_nuc | sh
 # (created with: $ curl -i https://git.io -F "url=https://raw.githubusercontent.com/pisarenko-net/arch-bootstrap-scripts/master/nuc/bootstrap.sh" -F "code=apfel_nuc")
 
 export DISK='/dev/nvme0n1'
@@ -24,7 +24,7 @@ export ENC_KEY_PATH="${TARGET_DIR}/enc.key"
 export COUNTRY='CH'
 export MIRRORLIST="https://www.archlinux.org/mirrorlist/?country=${COUNTRY}&protocol=http&protocol=https&ip_version=4&use_mirror_status=on"
 
-eval "`/usr/bin/wget git.io/apfel_bootstrap -O -`"
+eval "`/usr/bin/curl -L git.io/apfel_bootstrap`"
 
 echo '==> Configuring network'
 /usr/bin/cat <<-EOF > "${TARGET_DIR}/etc/netctl/ethernet-dhcp"
