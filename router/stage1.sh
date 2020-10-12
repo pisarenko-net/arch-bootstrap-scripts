@@ -94,7 +94,7 @@ echo '==> Setting up iptables'
 
 echo '==> Setting up multicast relay'
 /usr/bin/cp /tmp/configs/multicast-relay.py /usr/local/bin/
-/usr/bin/pacman -S --noconfirm python2 python2-netifaces
+/usr/bin/pacman -S --noconfirm python python-netifaces
 /usr/bin/cat <<-EOF > "${TARGET_DIR}/etc/systemd/system/multicast-relay.service"
 [Unit]
 Description=Multicast relay service
@@ -104,7 +104,7 @@ After=netctl@semi_trusted_vlan.service netctl@untrusted_vlan.service
 Type=forking
 User=root
 WorkingDirectory=/tmp
-ExecStart=/usr/bin/python2 /usr/local/bin/multicast-relay.py --interfaces ${LAN_IFACE}.20 ${LAN_IFACE}.30
+ExecStart=/usr/bin/python /usr/local/bin/multicast-relay.py --interfaces ${LAN_IFACE}.20 ${LAN_IFACE}.30
 Restart=on-failure
 
 [Install]

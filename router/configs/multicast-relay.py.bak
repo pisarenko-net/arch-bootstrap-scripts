@@ -45,14 +45,14 @@ class Logger():
             import logging
             logging.getLogger(__file__).info(*args, **kwargs)
         elif self.verbose:
-            print((args, kwargs))
+            print(args, kwargs)
 
     def warning(self, *args, **kwargs):
         if self.loggingAvailable:
             import logging
             logging.getLogger(__file__).warning(*args, **kwargs)
         else:
-            print((args, kwargs))
+            print(args, kwargs)
 
 class Netifaces():
     def __init__(self, homebrewNetifaces, ifNameStructLen):
@@ -85,21 +85,21 @@ class Netifaces():
             ))[0]
 
             if ifNameLen % self.ifNameStructLen != 0:
-                print('Do you need to set --ifNameStructLen? %s/%s ought to have a remainder of zero.' % (ifNameLen, self.ifNameStructLen))
+                print 'Do you need to set --ifNameStructLen? %s/%s ought to have a remainder of zero.' % (ifNameLen, self.ifNameStructLen)
                 sys.exit(1)
 
             ifNames = ifNames.tostring()
             for i in range(0, ifNameLen, self.ifNameStructLen):
                 name      = ifNames[i:i+16].split(nullByte, 1)[0].decode()
                 if not name:
-                    print('Cannot determine interface name: do you need to set --ifNameStructLen? %s/%s ought to have a remainder of zero.' % (ifNameLen, self.ifNameStructLen))
+                    print 'Cannot determine interface name: do you need to set --ifNameStructLen? %s/%s ought to have a remainder of zero.' % (ifNameLen, self.ifNameStructLen)
                     sys.exit(1)
                 ip        = socket.inet_ntoa(fcntl.ioctl(socket.socket(socket.AF_INET, socket.SOCK_DGRAM), 0x8915, struct.pack('256s', str(name)))[20:24])
                 netmask   = socket.inet_ntoa(fcntl.ioctl(socket.socket(socket.AF_INET, socket.SOCK_DGRAM), 0x891b, struct.pack('256s', str(name)))[20:24])
                 broadcast = socket.inet_ntoa(fcntl.ioctl(socket.socket(socket.AF_INET, socket.SOCK_DGRAM), 0x8919, struct.pack('256s', str(name)))[20:24])
                 hwaddr    = ':'.join(['%02x' % ord(char) for char in fcntl.ioctl(socket.socket(socket.AF_INET, socket.SOCK_DGRAM), 0x8927, struct.pack('256s', str(name)))[18:24]])
                 self.interfaceAttrs[name] = {Netifaces.AF_LINK: [{'addr': hwaddr}], Netifaces.AF_INET: [{'addr': ip, 'netmask': netmask, 'broadcast': broadcast}]}
-            return list(self.interfaceAttrs.keys())
+            return self.interfaceAttrs.keys()
         else:
             import netifaces
             return netifaces.interfaces()
@@ -247,7 +247,7 @@ class PacketRelay():
                             break
 
         if not ifname:
-            print(('Interface %s does not exist.' % interface))
+            print('Interface %s does not exist.' % interface)
             sys.exit(1)
 
         try:
@@ -262,7 +262,7 @@ class PacketRelay():
                 if self.nif.AF_INET in addrs:
                     break
                 if not self.wait:
-                    print(('Interface %s does not have an IPv4 address assigned.' % ifname))
+                    print('Interface %s does not have an IPv4 address assigned.' % ifname)
                     sys.exit(1)
                 self.logger.info('Waiting for IPv4 address on %s' % ifname)
                 time.sleep(1)
@@ -282,7 +282,7 @@ class PacketRelay():
             elif self.allowNonEther:
                 mac = '00:00:00:00:00:00'
             else:
-                print(('Unable to detect MAC address for interface %s.' % ifname))
+                print('Unable to detect MAC address for interface %s.' % ifname)
                 sys.exit(1)
 
             # These functions all return a value in string format, but our
@@ -291,8 +291,8 @@ class PacketRelay():
             # that conversion here.
             return (ifname, binascii.unhexlify(mac.replace(':', '')), ip, netmask)
         except Exception as e:
-            print(('Error getting information about interface %s.' % ifname))
-            print(('Valid interfaces: %s' % ' '.join(self.nif.interfaces())))
+            print('Error getting information about interface %s.' % ifname)
+            print('Valid interfaces: %s' % ' '.join(self.nif.interfaces()))
             self.logger.info(str(e))
             sys.exit(1)
 
