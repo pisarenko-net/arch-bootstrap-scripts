@@ -119,7 +119,7 @@ echo '==> Installing dyndns'
 /usr/bin/systemctl enable ddclient
 /usr/bin/systemctl start ddclient
 
-echo "==> Configuring incoming drive"
+echo "==> Configuring rslsync drive (incoming/music syncs)"
 /usr/bin/pacman -S --noconfirm gdisk
 /usr/bin/sgdisk -og ${INCOMING_DRIVE}
 ENDSECTOR=`/usr/bin/sgdisk -E ${INCOMING_DRIVE}`
@@ -127,10 +127,10 @@ ENDSECTOR=`/usr/bin/sgdisk -E ${INCOMING_DRIVE}`
 /usr/bin/mkfs.btrfs -f ${INCOMING_DRIVE}1
 UUID=`/usr/bin/blkid -s UUID -o value ${INCOMING_DRIVE}1`
 echo "# ${INCOMING_DRIVE}1" >> /etc/fstab
-echo "UUID=${UUID}       /mnt/incoming   btrfs           rw,relatime,ssd,space_cache,subvolid=5,subvol=/ 0 2" >> /etc/fstab
+echo "UUID=${UUID}       /mnt/mirror   btrfs           rw,relatime,ssd,space_cache,subvolid=5,subvol=/ 0 2" >> /etc/fstab
 /usr/bin/pacman -R --noconfirm gptfdisk
-/usr/bin/mkdir /mnt/incoming
-/usr/bin/mount /mnt/incoming
+/usr/bin/mkdir /mnt/mirror
+/usr/bin/mount /mnt/mirror
 cd /home/${USER}
 $AS /usr/bin/git clone https://aur.archlinux.org/rslsync.git
 cd rslsync
@@ -138,7 +138,7 @@ $AS /usr/bin/makepkg -si --noconfirm
 cd ..
 $AS /usr/bin/rm -rf rslsync
 /usr/bin/cp /tmp/private/rslsync.conf /etc/
-/usr/bin/chown rslsync:rslsync /mnt/incoming
+/usr/bin/chown rslsync:rslsync /mnt/mirror
 /usr/bin/systemctl enable rslsync
 /usr/bin/systemctl start rslsync
 
