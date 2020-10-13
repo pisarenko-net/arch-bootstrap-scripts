@@ -30,7 +30,7 @@ echo '==> Generating the system configuration script'
 
 /bin/cat <<-EOF > "${TARGET_DIR}${CONFIG_SCRIPT}"
 # Reset root password
-echo "root:${ROOT_PASSWORD}" | /usr/bin/chpasswd
+echo "root:${ROOT_PASSWORD}" | /usr/sbin/chpasswd
 # Set hostname
 echo '${FQDN}' > /etc/hostname
 # Set timezone
@@ -61,4 +61,4 @@ echo '==> Entering chroot and configuring system'
 echo '==> Install complete!'
 /bin/sleep 5
 /bin/umount ${TARGET_DIR}
-/sbin/reboot
+#/sbin/reboot
