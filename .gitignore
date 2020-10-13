@@ -2,3 +2,5 @@
 nuc/private/*
 router/private/*
 !*.secret
+cdpsa/private/wpa_supplicant.conf
+cdpsa/private/auto.music
