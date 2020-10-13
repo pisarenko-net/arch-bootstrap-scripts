@@ -36,3 +36,15 @@ Stage 1:
 ```
 $ curl -L git.io/apfel_router_install | sh
 ```
+
+## Hi-Fi appliance (cdp-sa)
+
+Bootstrap (run from Arch installer):
+```
+$ curl -L git.io/apfel_cdpsa | sh
+```
+
+Stage 1 (run from the booted machine, after completing bootstrap):
+```
+$ curl -L git.io/apfel_cdpsa | sh
+```
