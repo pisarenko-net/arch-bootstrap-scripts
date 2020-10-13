@@ -15,36 +15,38 @@ Common scripts are placed in `common` folder. For example, the bootstrap is iden
 
 ## NUC
 
-Bootstrap (run from Arch installer):
+Bootstrap (run from Arch installer as root):
 ```
 $ curl -L git.io/apfel_nuc | sh
 ```
 
-Stage 1 (run from the booted machine, after completing bootstrap):
+Stage 1 (run via SSH from the booted machine, after completing bootstrap):
 ```
 $ curl -L git.io/apfel_nuc_install | sh
 ```
 
 ## Router
 
-Bootstrap:
+Bootstrap (run from Arch installer as root):
 ```
 $ curl -L git.io/apfel_router | sh
 ```
 
-Stage 1:
+Stage 1 (run via SSH from the booted machine, after completing bootstrap):
 ```
 $ curl -L git.io/apfel_router_install | sh
 ```
 
-## Hi-Fi appliance (cdp-sa)
+## CD Player (cdp-sa)
 
-Bootstrap (run from Arch installer):
+CD Player doesn't run Arch and uses Raspberry OS instead. Because of that it doesn't share common scripts and instead has its own bootstrap and stage1.
+
+Bootstrap (run from NOOBS SD card under root):
 ```
 $ curl -L git.io/apfel_cdpsa | sh
 ```
 
-Stage 1 (run from the booted machine, after completing bootstrap):
+Stage 1 (run via SSH from the booted machine, after completing bootstrap):
 ```
-$ curl -L git.io/apfel_cdpsa | sh
+$ curl -L git.io/apfel_cdpsa_install | sh
 ```
