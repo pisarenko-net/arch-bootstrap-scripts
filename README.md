@@ -37,7 +37,7 @@ Stage 1:
 $ curl -L git.io/apfel_router_install | sh
 ```
 
-## Hi-Fi appliance (cdp-sa)
+## CD Player (cdp-sa)
 
 Bootstrap (run from Arch installer):
 ```
