@@ -20,10 +20,10 @@ echo "==> Refresh and upgrade packages"
 /usr/bin/apt -y upgrade
 
 echo "==> Installing tools"
-/usr/bin/apt -y install git tcpdump netcat tmux hwinfo mc gunzip zip lsof dnsutils git-secret autofs neovim smbclient 
+/usr/bin/apt -y install git tcpdump netcat tmux hwinfo mc zip lsof dnsutils git-secret autofs neovim smbclient 
 
 echo "==> Installing audio tools"
-/usr/bin/apt -y eject ffmpeg
+/usr/bin/apt -y install eject ffmpeg
 
 echo "==> Downloading configuration files and unlocking private configuration files"
 $AS /usr/bin/git clone https://github.com/pisarenko-net/arch-bootstrap-scripts.git /tmp/scripts-repo
