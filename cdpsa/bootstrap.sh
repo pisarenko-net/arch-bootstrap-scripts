@@ -14,9 +14,10 @@ export COUNTRY='CH'
 export FQDN='cdpsa.bethania'
 export TARGET_DIR='/mnt'
 export CONFIG_SCRIPT='/usr/local/bin/raspberry_install.sh'
+export GROUPS="adm,dialout,cdrom,sudo,audio,video,plugdev,games,input,netdev,gpio,i2c,spi,users"
 
 echo '==> Downloading OS'
-/usr/bin/curl -L https://downloads.raspberrypi.org/raspios_lite_armhf_latest | gunzip > /tmp/raspberry_os.img
+#/usr/bin/curl -L https://downloads.raspberrypi.org/raspios_lite_armhf_latest | gunzip > /tmp/raspberry_os.img
 
 echo '==> Installing image to disk'
 /bin/dd bs=4M if=/tmp/raspberry_os.img of=${DISK} status=progress conv=fsync
@@ -54,9 +55,10 @@ EOF
 
 echo '==> Entering chroot and configuring system'
 /usr/sbin/chroot ${TARGET_DIR} ${CONFIG_SCRIPT}
-/usr/bin/rm "${TARGET_DIR}${CONFIG_SCRIPT}"
+/bin/rm "${TARGET_DIR}${CONFIG_SCRIPT}"
+#/bin/rm /tmp/raspberry_os.img
 
 echo '==> Install complete!'
-/usr/bin/sleep 5
-/usr/bin/umount ${TARGET_DIR}
-/usr/bin/reboot
+/bin/sleep 5
+/bin/umount ${TARGET_DIR}
+/sbin/reboot
