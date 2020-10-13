@@ -46,5 +46,5 @@ $ curl -L git.io/apfel_cdpsa | sh
 
 Stage 1 (run from the booted machine, after completing bootstrap):
 ```
-$ curl -L git.io/apfel_cdpsa | sh
+$ curl -L git.io/apfel_cdpsa_install | sh
 ```
