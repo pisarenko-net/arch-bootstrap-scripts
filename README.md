@@ -39,6 +39,8 @@ $ curl -L git.io/apfel_router_install | sh
 
 ## CD Player (cdp-sa)
 
+CD Player doesn't run Arch and uses Raspberry OS instead. Because of that it doesn't share common scripts and instead has its own bootstrap and stage1.
+
 Bootstrap (run from NOOBS SD card under root):
 ```
 $ curl -L git.io/apfel_cdpsa | sh
