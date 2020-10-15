@@ -34,8 +34,33 @@ $AS /bin/cp -R /tmp/scripts-repo/cdpsa/configs/* /tmp/configs/
 $AS /bin/cp -R /tmp/scripts-repo/cdpsa/private /tmp/private
 $AS /bin/rm /tmp/private/*secret
 
+echo "==> Disabling built-in audio"
+echo "blacklist snd_bcm2835" > /etc/modprobe.d/blacklist-audio.conf
+
 echo "==> Configuring Wi-Fi"
 /bin/cp /tmp/private/wpa_supplicant.conf /etc/wpa_supplicant/wpa_supplicant.conf
+
+echo "==> Enabling IR sensor"
+/bin/su -c "grep '^deb ' /etc/apt/sources.list | sed 's/^deb/deb-src/g' > /etc/apt/sources.list.d/deb-src.list"
+/usr/bin/apt update
+/usr/bin/apt -y build-dep lirc
+/usr/bin/apt -y install devscripts
+$AS /bin/mkdir /home/${USER}/lirc-build
+$AS cd /home/${USER}/lirc-build
+$AS /usr/bin/apt source lirc
+$AS /bin/cp /tmp/configs/lirc-gpio-ir-0.10.patch /home/${USER}/lirc-build
+$AS /usr/bin/patch -p0 -i lirc-gpio-ir-0.10.patch
+$AS cd /home/${USER}/lirc-build/lirc-0.10.1
+$AS /usr/bin/debuild -uc -us -b
+/usr/bin/apt -y install /home/${USER}/lirc-build/liblirc0_0.10.1-6.2~deb10u1_armhf.deb /home/${USER}/lirc-build/liblircclient0_0.10.1-6.2~deb10u1_armhf.deb /home/${USER}/lirc-build/lirc_0.10.1-6.2~deb10u1_armhf.deb
+/bin/cp /tmp/configs/denon.lircd.conf /etc/lirc/lircd.conf.d/
+/bin/cp /home/${USER}/lirc-build/liblirc0_0.10.1-6.2~deb10u1_armhf.deb /
+/bin/cp /home/${USER}/lirc-build/liblircclient0_0.10.1-6.2~deb10u1_armhf.deb /
+/bin/cp /home/${USER}/lirc-build/lirc_0.10.1-6.2~deb10u1_armhf.deb /
+/bin/rm -rf /home/${USER}/lirc-build
+/usr/bin/sed -i 's/driver = devinput/driver = default/' /etc/lirc/lirc_options.conf
+/usr/bin/sed -i 's/device = auto/device = \/dev\/lirc0/' /etc/lirc/lirc_options.conf
+/usr/bin/sed -i 's/#dtoverlay=gpio-ir,gpio_pin=17/dtoverlay=gpio-ir,gpio_pin=4/' /boot/config.txt
 
 echo "==> Enabling SMB mount"
 echo "/mnt /etc/auto.music --timeout 0 --browse" >> /etc/auto.master
