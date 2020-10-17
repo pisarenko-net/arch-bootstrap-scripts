@@ -37,6 +37,25 @@ $AS /bin/rm /tmp/private/*secret
 echo "==> Disabling built-in audio"
 echo "blacklist snd_bcm2835" > /etc/modprobe.d/blacklist-audio.conf
 
+echo "==> Installing pulseaudio"
+/usr/bin/apt -y install pulseaudio pulsemixer pulseaudio-utils
+/bin/cat <<-EOF > /etc/systemd/system/pulseaudio.service
+[Unit]
+Description=PulseAudio system server
+
+[Service]
+Type=simple
+ExecStart=pulseaudio --daemonize=no --system --realtime --log-target=journal
+
+[Install]
+WantedBy=multi-user.target
+EOF
+/usr/bin/sed -i 's/load-module module-native-protocol-unix/load-module module-native-protocol-unix auth-anonymous=1/g' /etc/pulse/system.pa
+echo "load-module module-combine-sink sink_name=combined" >> /etc/pulse/system.pa
+echo "set-default-sink combined" >> /etc/pulse/system.pa
+/bin/systemctl --system enable pulseaudio.service
+/bin/systemctl start pulseaudio.service
+
 echo "==> Configuring Wi-Fi"
 /bin/cp /tmp/private/wpa_supplicant.conf /etc/wpa_supplicant/wpa_supplicant.conf
 
@@ -52,7 +71,7 @@ $AS /bin/cp /tmp/configs/lirc-gpio-ir-0.10.patch /home/${USER}/lirc-build
 $AS /usr/bin/patch -p0 -i lirc-gpio-ir-0.10.patch
 $AS cd /home/${USER}/lirc-build/lirc-0.10.1
 $AS /usr/bin/debuild -uc -us -b
-/usr/bin/apt -y install /home/${USER}/lirc-build/liblirc0_0.10.1-6.2~deb10u1_armhf.deb /home/${USER}/lirc-build/liblircclient0_0.10.1-6.2~deb10u1_armhf.deb /home/${USER}/lirc-build/lirc_0.10.1-6.2~deb10u1_armhf.deb
+/usr/bin/apt -y install /home/${USER}/lirc-build/*.deb
 /bin/cp /tmp/configs/denon.lircd.conf /etc/lirc/lircd.conf.d/
 /bin/cp /home/${USER}/lirc-build/liblirc0_0.10.1-6.2~deb10u1_armhf.deb /
 /bin/cp /home/${USER}/lirc-build/liblircclient0_0.10.1-6.2~deb10u1_armhf.deb /
@@ -66,6 +85,9 @@ echo "==> Enabling SMB mount"
 echo "/mnt /etc/auto.music --timeout 0 --browse" >> /etc/auto.master
 /bin/cp /tmp/private/auto.music /etc/
 /bin/chmod 640 /etc/auto.music
+
+echo "==> Installing Python tools"
+/usr/bin/apt -y install python3-pip
 
 echo "==> Installing Minidisc library"
 $AS /usr/bin/git clone https://github.com/pisarenko-net/md-uploader.git /home/${USER}/minidisc
