@@ -50,7 +50,7 @@ ExecStart=pulseaudio --daemonize=no --system --realtime --log-target=journal
 [Install]
 WantedBy=multi-user.target
 EOF
-/usr/bin/sed -i 's/load-module module-native-protocol-unix/load-module module-native-protocol-unix auth-anonymous=1/g' /etc/pulse/system.pa
+/bin/sed -i 's/load-module module-native-protocol-unix/load-module module-native-protocol-unix auth-anonymous=1/g' /etc/pulse/system.pa
 echo "load-module module-combine-sink sink_name=combined" >> /etc/pulse/system.pa
 echo "set-default-sink combined" >> /etc/pulse/system.pa
 /bin/systemctl --system enable pulseaudio.service
@@ -65,11 +65,11 @@ echo "==> Enabling IR sensor"
 /usr/bin/apt -y build-dep lirc
 /usr/bin/apt -y install devscripts
 $AS /bin/mkdir /home/${USER}/lirc-build
-$AS cd /home/${USER}/lirc-build
+cd /home/${USER}/lirc-build
 $AS /usr/bin/apt source lirc
 $AS /bin/cp /tmp/configs/lirc-gpio-ir-0.10.patch /home/${USER}/lirc-build
 $AS /usr/bin/patch -p0 -i lirc-gpio-ir-0.10.patch
-$AS cd /home/${USER}/lirc-build/lirc-0.10.1
+cd /home/${USER}/lirc-build/lirc-0.10.1
 $AS /usr/bin/debuild -uc -us -b
 /usr/bin/apt -y install /home/${USER}/lirc-build/*.deb
 /bin/cp /tmp/configs/denon.lircd.conf /etc/lirc/lircd.conf.d/
@@ -77,9 +77,9 @@ $AS /usr/bin/debuild -uc -us -b
 /bin/cp /home/${USER}/lirc-build/liblircclient0_0.10.1-6.2~deb10u1_armhf.deb /
 /bin/cp /home/${USER}/lirc-build/lirc_0.10.1-6.2~deb10u1_armhf.deb /
 /bin/rm -rf /home/${USER}/lirc-build
-/usr/bin/sed -i 's/driver = devinput/driver = default/' /etc/lirc/lirc_options.conf
-/usr/bin/sed -i 's/device = auto/device = \/dev\/lirc0/' /etc/lirc/lirc_options.conf
-/usr/bin/sed -i 's/#dtoverlay=gpio-ir,gpio_pin=17/dtoverlay=gpio-ir,gpio_pin=4/' /boot/config.txt
+/bin/sed -i 's/driver = devinput/driver = default/' /etc/lirc/lirc_options.conf
+/bin/sed -i 's/device = auto/device = \/dev\/lirc0/' /etc/lirc/lirc_options.conf
+/bin/sed -i 's/#dtoverlay=gpio-ir,gpio_pin=17/dtoverlay=gpio-ir,gpio_pin=4/' /boot/config.txt
 
 echo "==> Enabling SMB mount"
 echo "/mnt /etc/auto.music --timeout 0 --browse" >> /etc/auto.master
