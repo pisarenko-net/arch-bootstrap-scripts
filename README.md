@@ -50,3 +50,40 @@ Stage 1 (run via SSH from the booted machine, after completing bootstrap):
 ```
 $ curl -L git.io/apfel_cdpsa_install | sh
 ```
+
+Because the cdp-sa install doesn't copy OS files from the SD card and instead downloads OS every time I'm keeping a standard SD card with an automated script that installs the OS as soon as the system boots. To indicate successfull installation the green LED stays steady on.
+
+The install script:
+```
+cat /usr/local/bin/install_cdp_sa.sh
+
+#!/bin/bash
+curl -L git.io/apfel_cdpsa | sh
+```
+
+The init script:
+```
+sudo systemctl edit --force --full install_cdp_sa.service
+
+[Unit]
+Description=Install cdp-sa software onto attached USB storage
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+Type=simple
+User=root
+WorkingDirectory=/home/pi
+ExecStart=/usr/local/bin/install_cdp_sa.sh
+
+[Install]
+WantedBy=multi-user.target
+```
+
+And few additional commands:
+```
+$ sudo systemctl enable install_cdp_sa.service
+$ sudo chmod +x /usr/local/bin/install_cdp_sa.service
+```
+
+With this setup to get the bootstrap stage complete all that is necessary is to insert the SD card and power cycle the Raspberry. Once the setup is complete green LED becomes steady. Note reboot isn't automatically performed as that would cause Raspberry to boot from SD again and reinstall again.
