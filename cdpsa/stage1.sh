@@ -76,6 +76,7 @@ $AS /usr/bin/debuild -uc -us -b
 /bin/cp /home/${USER}/lirc-build/liblirc0_0.10.1-6.2~deb10u1_armhf.deb /
 /bin/cp /home/${USER}/lirc-build/liblircclient0_0.10.1-6.2~deb10u1_armhf.deb /
 /bin/cp /home/${USER}/lirc-build/lirc_0.10.1-6.2~deb10u1_armhf.deb /
+cd /home/${USER}
 /bin/rm -rf /home/${USER}/lirc-build
 /bin/sed -i 's/driver = devinput/driver = default/' /etc/lirc/lirc_options.conf
 /bin/sed -i 's/device = auto/device = \/dev\/lirc0/' /etc/lirc/lirc_options.conf
