@@ -3,6 +3,10 @@
 # run and execute after dropping into arch installer: $ curl -L git.io/apfel_cdpsa | sh
 # (created with: $ curl -i https://git.io -F "url=https://raw.githubusercontent.com/pisarenko-net/arch-bootstrap-scripts/master/cdpsa/bootstrap.sh" -F "code=apfel_cdpsa")
 
+# use green LED to indicate finished setup
+echo none >/sys/class/leds/led0/trigger
+echo 0 >/sys/class/leds/led0/brightness
+
 export DISK='/dev/sda'
 export BOOT_PARTITION='/dev/sda1'
 export ROOT_PARTITION='/dev/sda2'
@@ -68,4 +72,5 @@ echo '==> Install complete!'
 /bin/sleep 5
 /bin/umount ${TARGET_DIR}/boot
 /bin/umount ${TARGET_DIR}
-/sbin/reboot
+echo 1 >/sys/class/leds/led0/brightness
+
