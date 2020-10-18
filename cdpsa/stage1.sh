@@ -94,6 +94,12 @@ $AS /usr/bin/git clone https://github.com/pisarenko-net/md-uploader.git /home/${
 
 echo "==> Installing CDP-SA software"
 $AS /usr/bin/git clone https://github.com/pisarenko-net/cdp-sa.git /home/${USER}/cdp-sa
+/usr/bin/apt -y install libboost-all-dev libdiscid-dev
+/usr/bin/yes | /usr/bin/pip3 install zmq daemon python-daemon tornado transitions musicbrainzngs mutagen pyyaml ringbuf filelock pickledb discid coolname retrying miniaudio
+/bin/cp /tmp/configs/cdp-sa.yaml /etc/
+/bin/mkdir /var/run/cdp-sa
+/bin/mkdir /var/log/cdp-sa
+/bin/chown ${USER}:${USER} /var/run/cdp-sa /var/log/cdp-sa
 
 echo '==> Cleaning up'
 $AS /usr/bin/gpg --batch --delete-secret-keys B01ACF22C49D7DE67F625C6F538D8B004CA3C11A
