@@ -82,6 +82,10 @@ cd /home/${USER}
 /bin/sed -i 's/device = auto/device = \/dev\/lirc0/' /etc/lirc/lirc_options.conf
 /bin/sed -i 's/#dtoverlay=gpio-ir,gpio_pin=17/dtoverlay=gpio-ir,gpio_pin=4/' /boot/config.txt
 
+echo "==> Enabling hardware I2C and SPI"
+/bin/sed -i 's/#dtparam=spi=on/dtparam=spi=on/' /boot/config.txt
+/bin/sed -i 's/#dtparam=i2c_arm=on/dtparam=i2c_arm=on/' /boot/config.txt
+
 echo "==> Enabling SMB mount"
 echo "/mnt /etc/auto.music --timeout 0 --browse" >> /etc/auto.master
 /bin/cp /tmp/private/auto.music /etc/
