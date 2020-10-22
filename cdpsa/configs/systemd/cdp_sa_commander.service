@@ -1,0 +1,13 @@
+[Unit]
+Description=cdp-sa commander module
+After=network.target
+
+[Service]
+ExecStart=/usr/bin/python3 /home/sergey/cdp-sa/start_commander.py
+KillSignal=9
+Type=simple
+WorkingDirectory=/home/sergey/cdp-sa/
+Restart=always
+
+[Install]
+WantedBy=multi-user.target

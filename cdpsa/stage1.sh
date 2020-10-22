@@ -101,6 +101,18 @@ $AS /usr/bin/git clone https://github.com/pisarenko-net/cdp-sa.git /home/${USER}
 /bin/mkdir /var/run/cdp-sa
 /bin/mkdir /var/log/cdp-sa
 /bin/chown ${USER}:${USER} /var/run/cdp-sa /var/log/cdp-sa
+/bin/cp /tmp/configs/systemd/* /etc/systemd/system/
+/bin/systemctl daemon-reload
+/bin/systemctl enable cdp_sa_commander
+/bin/systemctl start cdp_sa_commander
+/bin/systemctl enable cdp_sa_player
+/bin/systemctl start cdp_sa_player
+/bin/systemctl enable cdp_sa_ripper
+/bin/systemctl start cdp_sa_ripper
+/bin/systemctl enable cdp_sa_remote_control
+/bin/systemctl start cdp_sa_remote_control
+/bin/systemctl enable cdp_sa_display
+/bin/systemctl start cdp_sa_display
 
 echo '==> Cleaning up'
 $AS /usr/bin/gpg --batch --delete-secret-keys B01ACF22C49D7DE67F625C6F538D8B004CA3C11A

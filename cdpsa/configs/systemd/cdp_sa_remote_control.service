@@ -1,0 +1,13 @@
+[Unit]
+Description=cdp-sa remote control module
+After=network.target cdp_sa_commander.target
+
+[Service]
+ExecStart=/usr/bin/python3 /home/sergey/cdp-sa/start_remote_control.py
+KillSignal=9
+Type=simple
+WorkingDirectory=/home/sergey/cdp-sa/
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
