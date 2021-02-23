@@ -15,6 +15,8 @@ Common scripts are placed in `common` folder. For example, the bootstrap is iden
 
 ## NUC
 
+**Last install**: 2021-02-23
+
 Bootstrap (run from Arch installer as root):
 ```
 $ curl -L git.io/apfel_nuc | sh
