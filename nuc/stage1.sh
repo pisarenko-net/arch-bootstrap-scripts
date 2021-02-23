@@ -10,8 +10,7 @@ export FULL_NAME="Sergey Pisarenko"
 export AS="/usr/bin/sudo -u ${USER}"
 
 if [ ! -f private.key ]; then
-    echo "Download the GPG private key and save it to private.key first"
-    exit 1
+    echo "Download the GPG private key and save it to private.key first" exit 1
 fi
 
 echo "==> Importing GPG key for decrypting private configuration files"
@@ -61,6 +60,18 @@ cd virtualbox-ext-oracle
 $AS /usr/bin/makepkg -si --noconfirm
 cd ..
 $AS /usr/bin/rm -rf virtualbox-ext-oracle
+
+echo '==> Install CIFS tools'
+/usr/bin/pacman -S --noconfirm cifs-utils
+
+echo '==> Installing extra dev tools'
+/usr/bin/pacman -S --noconfirm fuse2 libfuse boost
+
+echo '==> Installing media tools'
+/usr/bin/pacman -S --noconfirm ffmpeg audacity alsa-utils alsa-firmware cdparanoia lirc
+
+echo '==> Installing Arduino tools'
+/usr/bin/pacman -S arduino jdk8-openjdk arduino-avr-core
 
 echo '==> Cleaning up'
 $AS /usr/bin/gpg --batch --delete-secret-keys B01ACF22C49D7DE67F625C6F538D8B004CA3C11A

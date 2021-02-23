@@ -53,14 +53,14 @@ $AS /usr/bin/cp -r /tmp/configs/sublime-text-3 .config/
 $AS /usr/bin/mkdir -p .config/sublime-text-3/Local/
 $AS /usr/bin/cp /tmp/private/License.sublime_license .config/sublime-text-3/Local/
 
-# install Google Chrome
-echo '==> Installing Google Chrome (AUR)'
+# install web browser
+echo '==> Installing brave-bin (AUR)'
 cd /home/${USER}
-$AS /usr/bin/git clone https://aur.archlinux.org/google-chrome.git
-cd google-chrome
+$AS /usr/bin/git clone https://aur.archlinux.org/brave-bin.git
+cd brave-bin
 $AS /usr/bin/makepkg -si --noconfirm
 cd ..
-$AS /usr/bin/rm -rf google-chrome
+$AS /usr/bin/rm -rf brave-bin
 
 # customize XFCE
 echo '==> Customizing XFCE'
