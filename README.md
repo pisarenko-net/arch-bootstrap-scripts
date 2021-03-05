@@ -15,7 +15,7 @@ Common scripts are placed in `common` folder. For example, the bootstrap is iden
 
 ## NUC
 
-**Last install**: 2021-02-23
+**Last install**: 2021-03-05
 
 Bootstrap (run from Arch installer as root):
 ```
