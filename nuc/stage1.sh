@@ -9,6 +9,8 @@ export FULL_NAME="Sergey Pisarenko"
 
 export AS="/usr/bin/sudo -u ${USER}"
 
+export INSTALL_VMS="example_cli"
+
 if [ ! -f private.key ]; then
     echo "Download the GPG private key and save it to private.key first" exit 1
 fi
@@ -23,6 +25,7 @@ $AS /usr/bin/git clone https://github.com/pisarenko-net/arch-bootstrap-scripts.g
 cd /tmp/scripts-repo
 $AS /usr/bin/git secret reveal
 $AS /usr/bin/cp -R /tmp/scripts-repo/common/configs /tmp/configs
+$AS /usr/bin/cp -R /tmp/scripts-repo/common/apps /tmp/apps
 $AS /usr/bin/cp -R /tmp/scripts-repo/nuc/configs/* /tmp/configs/
 $AS /usr/bin/cp -R /tmp/scripts-repo/common/wallpapers /tmp/wallpapers
 $AS /usr/bin/cp -R /tmp/scripts-repo/nuc/private /tmp/private
@@ -30,6 +33,12 @@ $AS /usr/bin/rm /tmp/private/*secret
 
 eval "`/usr/bin/curl -L git.io/apfel_cli`"
 eval "`/usr/bin/curl -L git.io/apfel_xorg`"
+
+echo '==> Installing custom apps'
+$AS /usr/bin/cp /tmp/apps/vm_refresh_packer /usr/local/bin/
+/usr/bin/chmod +x /usr/local/bin/vm_refresh_packer
+$AS /usr/bin/cp /tmp/apps/vm_rebuild_install /usr/local/bin/
+/usr/bin/chmod +x /usr/local/bin/vm_rebuild_install
 
 echo '==> Installing X driver and enhancements'
 /usr/bin/pacman -S --noconfirm xf86-video-intel compton
