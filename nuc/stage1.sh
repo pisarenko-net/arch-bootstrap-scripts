@@ -69,6 +69,7 @@ cd virtualbox-ext-oracle
 $AS /usr/bin/makepkg -si --noconfirm
 cd ..
 $AS /usr/bin/rm -rf virtualbox-ext-oracle
+modprobe vboxdrv
 
 echo '==> Install CIFS tools'
 /usr/bin/pacman -S --noconfirm cifs-utils
@@ -101,6 +102,7 @@ $AS /usr/bin/git push
 
 echo '==> Cleaning up'
 $AS /usr/bin/gpg --batch --delete-secret-keys B01ACF22C49D7DE67F625C6F538D8B004CA3C11A
+/usr/bin/rm -rf /tmp/apps
 /usr/bin/rm -rf /tmp/scripts-repo
 /usr/bin/rm -rf /tmp/configs
 /usr/bin/rm -rf /tmp/private
