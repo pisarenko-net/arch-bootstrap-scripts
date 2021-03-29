@@ -51,6 +51,9 @@ ExecStart=${START_UP_SCRIPT_PATH}
 ExecStop=${STOP_SCRIPT_PATH}
 RemainAfterExit=yes
 Type=oneshot
+
+[Install]
+WantedBy=multi-user.target
 EOF
 /usr/bin/systemctl enable ${INIT_SERVICE_NAME}
 
