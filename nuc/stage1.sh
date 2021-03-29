@@ -101,7 +101,7 @@ $AS /usr/bin/git commit -m "update Arch packer version to: ${PACKER_VERSION}"
 $AS /usr/bin/git push
 
 echo '==> Cleaning up'
-$AS /usr/bin/gpg --batch --delete-secret-keys B01ACF22C49D7DE67F625C6F538D8B004CA3C11A
+$AS /usr/bin/gpg --batch --delete-secret-keys 6E77A188BB74BDE4A259A52DB320A1C85AFACA96
 /usr/bin/rm -rf /tmp/apps
 /usr/bin/rm -rf /tmp/scripts-repo
 /usr/bin/rm -rf /tmp/configs
