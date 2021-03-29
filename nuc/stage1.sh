@@ -35,9 +35,9 @@ eval "`/usr/bin/curl -L git.io/apfel_cli`"
 eval "`/usr/bin/curl -L git.io/apfel_xorg`"
 
 echo '==> Installing custom apps'
-$AS /usr/bin/cp /tmp/apps/vm_refresh_packer /usr/local/bin/
+/usr/bin/cp /tmp/apps/vm_refresh_packer /usr/local/bin/
 /usr/bin/chmod +x /usr/local/bin/vm_refresh_packer
-$AS /usr/bin/cp /tmp/apps/vm_rebuild_install /usr/local/bin/
+/usr/bin/cp /tmp/apps/vm_rebuild_install /usr/local/bin/
 /usr/bin/chmod +x /usr/local/bin/vm_rebuild_install
 
 echo '==> Installing X driver and enhancements'
