@@ -83,6 +83,9 @@ echo '==> Installing media tools'
 echo '==> Installing Arduino tools'
 /usr/bin/pacman -S arduino jdk8-openjdk arduino-avr-core
 
+echo "==> What's wrong in here?"
+sleep 4
+
 echo '==> Updating VM templates'    
 /usr/local/bin/vm_refresh_packer        
 
