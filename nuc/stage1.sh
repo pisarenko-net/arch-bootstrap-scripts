@@ -82,6 +82,23 @@ echo '==> Installing media tools'
 echo '==> Installing Arduino tools'
 /usr/bin/pacman -S arduino jdk8-openjdk arduino-avr-core
 
+echo '==> Updating VM templates'    
+/usr/local/bin/vm_refresh_packer        
+
+echo '==> Building and enabling VMs'        
+for vm in ${INSTALL_VMS}        
+do        
+        echo "==> Building VM ${vm}"        
+        /usr/local/bin/vm_rebuild_install ${vm}                 
+done                                        
+
+echo '==> Committing changes to vagrant/packer repo'        
+cd /home/${USER}/arch-packer-vagrant        
+$AS /usr/bin/git add .        
+PACKER_VERSION=`date +%Y-%m-01`          
+$AS /usr/bin/git commit -m "update Arch packer version to: ${PACKER_VERSION}"    
+$AS /usr/bin/git push
+
 echo '==> Cleaning up'
 $AS /usr/bin/gpg --batch --delete-secret-keys B01ACF22C49D7DE67F625C6F538D8B004CA3C11A
 /usr/bin/rm -rf /tmp/scripts-repo
