@@ -81,10 +81,7 @@ echo '==> Installing media tools'
 /usr/bin/pacman -S --noconfirm ffmpeg audacity alsa-utils alsa-firmware cdparanoia lirc
 
 echo '==> Installing Arduino tools'
-/usr/bin/pacman -S arduino jdk8-openjdk arduino-avr-core
-
-echo "==> What's wrong in here?"
-sleep 4
+/usr/bin/pacman -S --noconfirm arduino jdk8-openjdk arduino-avr-core
 
 echo '==> Updating VM templates'    
 /usr/local/bin/vm_refresh_packer        
