@@ -1,4 +1,6 @@
-# arch-bootstrap-scripts
+# (DEPRECATED) arch-bootstrap-scripts
+
+**DEPRECATED**: [Superceded by arch-bootstrapper](https://github.com/pisarenko-net/arch-bootstrapper/blob/main/README.md)
 
 Self-contained collection of setup scripts and configurations to build and deploy computers and network appliances from a bootable Arch thumb drive to a completely configured functioning state. The goal is to have disposable hardware that can be replaced with minimal effort and reasonable automation. Instead of doing backups and maintenance each machine is rebuilt from scratch on a whim. Everything is driven by software, nothing is installed manually.
 
